@@ -1,11 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Registrar</title>
-	<link rel="stylesheet" href="@Url.Content("~/css/Login.css")" />
-</head>
+﻿@model Entidades.EF.Usuario
+<link rel="stylesheet" href="@Url.Content("~/css/Login.css")" />
 <body>
 	<div class="container">
 		<div class="image-side">
@@ -13,7 +7,7 @@
 		</div>
 		<div class="form-side">
 			<h2 class="logo">CASINO CRUSADERS</h2>
-			<p class="subtitle">Registrate aquí o <a href="#">Logueate</a> si ya tenes una cuenta.</p>
+			<p class="subtitle">Registrate aquí o <a asp-action="Login">Logueate</a> si ya tenes una cuenta.</p>
 
 			<div class="social-buttons">
 				<button class="social google">Google</button>
@@ -22,13 +16,51 @@
 
 			<div class="divider">o</div>
 
-			<form class="register-form">
-				<input type="text" placeholder="Full Name" required />
-				<input type="email" placeholder="Email" required />
-				<input type="password" placeholder="Password" required />
-				<button type="submit" class="submit">Sign up</button>
+			<form asp-action="Registrar" class="register-form">
+				<div class="form-group">
+					<label asp-for="NombreUsuario" class="form-label"></label>
+					<input asp-for="NombreUsuario" class="form-control" />
+					<span asp-validation-for="NombreUsuario" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Gmail" class="form-label"></label>
+					<input asp-for="Gmail" class="form-control" />
+					<span asp-validation-for="Gmail" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Contraseña" class="form-label"></label>
+					<input asp-for="Contraseña" type="password" class="form-control pass-validation-1" />
+					<span asp-validation-for="Contraseña" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="Contraseña" class="form-label"></label>
+					<input asp-for="Contraseña" type="password" class="form-control pass-validation-1" />
+					<span asp-validation-for="Contraseña" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label asp-for="NombreUsuario" class="form-label"></label>
+					<input asp-for="NombreUsuario" class="form-control" />
+					<span asp-validation-for="NombreUsuario" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary">Registrar</button>
+				</div>
 			</form>
 		</div>
 	</div>
 </body>
-</html>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const password1 = document.querySelector(".pass-validation-1");
+		const password2 = document.querySelector(".pass-validation-2");
+		password2.addEventListener("input", function () {
+			if (password1.value !== password2.value) {
+				password2.setCustomValidity("Las contraseñas no coinciden.");
+			} else {
+				password2.setCustomValidity("");
+			}
+		});
+	});
+</script>
+

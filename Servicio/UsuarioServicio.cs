@@ -1,21 +1,32 @@
 ﻿using Entidades;
+using Entidades.EF;
+using Microsoft.AspNetCore.Identity;
 
 namespace Servicio;
 
 public interface IUsuarioServicio
 {
-    void CrearUsuario(Usuario usuario);
+    void AgregarUsuario(Usuario usuario);
     Usuario ObtenerUsuarioPorId(int id);
     List<Usuario> ObtenerTodosLosUsuarios();
     void ActualizarUsuario(Usuario usuario);
     void EliminarUsuario(int id);
 }
-public class UsuarioServicio
+public class UsuarioServicio : IUsuarioServicio
 {
-    public void CrearUsuario(Usuario usuario)
+    CasinoCrusadersContext _context;
+    private readonly PasswordHasher<string> _passwordHasher;
+
+
+    public UsuarioServicio(CasinoCrusadersContext context)
     {
-        // Lógica para crear un nuevo usuario
-        // Esto podría incluir la validación de datos y el almacenamiento en una base de datos
+        _context = context;
+    }
+    public void AgregarUsuario(Usuario usuario)
+    {
+        string passwordHasheada = _passwordHasher.HashPassword(usuario.Gmail, usuario.Contraseña);
+        _context.Usuarios.Add(usuario);
+        _context.SaveChanges();
     }
 
     public Usuario ObtenerUsuarioPorId(int id)

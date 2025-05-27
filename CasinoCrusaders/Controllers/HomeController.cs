@@ -1,13 +1,25 @@
 using System.Diagnostics;
-using CasinoCrusaders.Models;
 using Entidades;
+using Entidades.EF;
 using Microsoft.AspNetCore.Mvc;
+using Servicio;
 
 namespace CasinoCrusaders.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Registar()
+        IUsuarioServicio servicio;
+
+        public HomeController(IUsuarioServicio servicio)
+        {
+            this.servicio = servicio;
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+        public IActionResult Registrar()
         {
             return View();
         }
@@ -17,9 +29,7 @@ namespace CasinoCrusaders.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                // Aquí puedes guardar el usuario en la base de datos
-                // y redirigir a otra acción o vista.
+                servicio.AgregarUsuario(usuario);
                 return RedirectToAction("Login");
             }
             return View(usuario);
