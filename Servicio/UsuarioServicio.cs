@@ -21,12 +21,22 @@ public class UsuarioServicio : IUsuarioServicio
     public UsuarioServicio(CasinoCrusadersContext context)
     {
         _context = context;
+        _passwordHasher = new PasswordHasher<string>();
     }
     public void AgregarUsuario(Usuario usuario)
     {
-        string passwordHasheada = _passwordHasher.HashPassword(usuario.Gmail, usuario.Contraseña);
+        string token = Guid.NewGuid().ToString("N");
+        DateTime expiration = DateTime.UtcNow.AddHours(24);
+        string passwordHasheada = _passwordHasher.HashPassword(usuario.NombreUsuario, usuario.Contraseña);
+
+
+        usuario.EmailVerificacionToken = token;
+        usuario.ExpiracionToken = expiration;
+
+
         _context.Usuarios.Add(usuario);
         _context.SaveChanges();
+
     }
 
     public Usuario ObtenerUsuarioPorId(int id)

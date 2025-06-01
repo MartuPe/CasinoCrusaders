@@ -15,9 +15,11 @@
 			</div>
 
 			<div class="divider">o</div>
-
-			<form asp-action="Registrar" class="register-form">
+			<form asp-action="Registrar" method="post" class="register-form">
 				<div class="form-group">
+@* 					@Html.LabelFor(Model => Model.NombreUsuario)
+					@Html.TextBoxFor(Model => Model.NombreUsuario)
+					@Html.ValidationMessageFor(Model => Model.NombreUsuario) *@
 					<label asp-for="NombreUsuario" class="form-label"></label>
 					<input asp-for="NombreUsuario" class="form-control" />
 					<span asp-validation-for="NombreUsuario" class="text-danger"></span>
@@ -33,16 +35,6 @@
 					<span asp-validation-for="Contraseña" class="text-danger"></span>
 				</div>
 				<div class="form-group">
-					<label asp-for="Contraseña" class="form-label"></label>
-					<input asp-for="Contraseña" type="password" class="form-control pass-validation-1" />
-					<span asp-validation-for="Contraseña" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="NombreUsuario" class="form-label"></label>
-					<input asp-for="NombreUsuario" class="form-control" />
-					<span asp-validation-for="NombreUsuario" class="text-danger"></span>
-				</div>
-				<div class="form-group">
 					<button type="submit" class="btn btn-primary">Registrar</button>
 				</div>
 			</form>
@@ -50,17 +42,8 @@
 	</div>
 </body>
 
-<script>
-	document.addEventListener("DOMContentLoaded", function () {
-		const password1 = document.querySelector(".pass-validation-1");
-		const password2 = document.querySelector(".pass-validation-2");
-		password2.addEventListener("input", function () {
-			if (password1.value !== password2.value) {
-				password2.setCustomValidity("Las contraseñas no coinciden.");
-			} else {
-				password2.setCustomValidity("");
-			}
-		});
-	});
-</script>
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
+
 

@@ -6,11 +6,11 @@ using Servicio;
 
 namespace CasinoCrusaders.Controllers
 {
-    public class HomeController : Controller
+    public class UsuarioController : Controller
     {
         IUsuarioServicio servicio;
 
-        public HomeController(IUsuarioServicio servicio)
+        public UsuarioController(IUsuarioServicio servicio)
         {
             this.servicio = servicio;
         }
@@ -25,8 +25,9 @@ namespace CasinoCrusaders.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registar(Usuario usuario)
+        public IActionResult Registrar(Usuario usuario)
         {
+          
             if (ModelState.IsValid)
             {
                 servicio.AgregarUsuario(usuario);
@@ -34,6 +35,5 @@ namespace CasinoCrusaders.Controllers
             }
             return View(usuario);
         }
-
     }
 }
