@@ -31,7 +31,7 @@ public partial class CasinoCrusadersContext : DbContext
 
             entity.Property(e => e.IdUsuario).HasColumnName("Id_usuario");
             entity.Property(e => e.Contraseña)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .IsUnicode(false);
             entity.Property(e => e.EmailVerificacionToken)
                 .HasMaxLength(40)

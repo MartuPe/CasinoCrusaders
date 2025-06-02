@@ -1,6 +1,6 @@
 ﻿@model Entidades.EF.Usuario
 <link rel="stylesheet" href="@Url.Content("~/css/Login.css")" />
-<body>
+@* <body>
 	<div class="container">
 		<div class="image-side">
 			<img src="/Imagenes/Login.png" alt="Dragon Illustration" />
@@ -17,9 +17,6 @@
 			<div class="divider">o</div>
 			<form asp-action="Registrar" method="post" class="register-form">
 				<div class="form-group">
-@* 					@Html.LabelFor(Model => Model.NombreUsuario)
-					@Html.TextBoxFor(Model => Model.NombreUsuario)
-					@Html.ValidationMessageFor(Model => Model.NombreUsuario) *@
 					<label asp-for="NombreUsuario" class="form-label"></label>
 					<input asp-for="NombreUsuario" class="form-control" />
 					<span asp-validation-for="NombreUsuario" class="text-danger"></span>
@@ -40,8 +37,53 @@
 			</form>
 		</div>
 	</div>
-</body>
+</body> *@
+<body>
+	<div class="login-container">
+		<div class="col-md-6 left-image"></div>
 
+		<div class="col-md-6 col-12 form-container">
+			<div class="login-form">
+				<h2 class="text-center fw-bold mb-3">CASINO CRUSADERS</h2>
+				<p class="text-center">Registrate aquí o <a asp-action="Login">Logueate</a> si no tenes una cuenta.</p>
+
+				<div class="d-flex justify-content-between gap-2 mb-3">
+					<button class="btn btn-light w-100">Google</button>
+					<button class="btn btn-light w-100">Facebook</button>
+				</div>
+
+				<div class="text-center text-secondary mb-3 small">o</div>
+
+				<form asp-action="Registrar" method="post" class="register-form">
+					<div class="mb-3">
+						<label asp-for="NombreUsuario" class="form-label"></label>
+						<input asp-for="NombreUsuario" class="form-control" />
+						<span asp-validation-for="NombreUsuario" class="text-danger"></span>
+					</div>
+					<div class="mb-3">
+						<label asp-for="Gmail" class="form-label"></label>
+						<input asp-for="Gmail" class="form-control" />
+						<span asp-validation-for="Gmail" class="text-danger"></span>
+					</div>
+					<div class="mb-3">
+						<label asp-for="Contraseña" class="form-label"></label>
+						<input asp-for="Contraseña" type="password" class="form-control" />
+						<span asp-validation-for="Contraseña" class="text-danger"></span>
+						<span asp-validation-for="RepiteContraseña" class="text-danger"></span>
+					</div>
+					<div class="mb-3">
+						<label asp-for="RepiteContraseña" class="form-label"></label>
+						<input asp-for="RepiteContraseña" type="password" class="form-control" />
+						<span asp-validation-for="RepiteContraseña" class="text-danger"></span>
+					</div>
+					<div class="d-grid">
+						<button type="submit" class="btn btn-primary">Entrar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />
 }

@@ -29,10 +29,9 @@ public class UsuarioServicio : IUsuarioServicio
         DateTime expiration = DateTime.UtcNow.AddHours(24);
         string passwordHasheada = _passwordHasher.HashPassword(usuario.NombreUsuario, usuario.Contraseña);
 
-
+        usuario.Contraseña = passwordHasheada;
         usuario.EmailVerificacionToken = token;
         usuario.ExpiracionToken = expiration;
-
 
         _context.Usuarios.Add(usuario);
         _context.SaveChanges();

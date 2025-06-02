@@ -13,11 +13,11 @@ public partial class Usuario
 
     public string NombreUsuario { get; set; } = null!;
 
-    public string TipoUsuario { get; set; } = null!;
+    public string? TipoUsuario { get; set; }
 
     public int? IdPersonaje { get; set; }
 
-    public string EmailVerificacionToken { get; set; } = null!;
+    public string? EmailVerificacionToken { get; set; }
 
     public DateTime? ExpiracionToken { get; set; }
 

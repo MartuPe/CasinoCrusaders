@@ -27,7 +27,6 @@ namespace CasinoCrusaders.Controllers
         [HttpPost]
         public IActionResult Registrar(Usuario usuario)
         {
-          
             if (ModelState.IsValid)
             {
                 servicio.AgregarUsuario(usuario);
