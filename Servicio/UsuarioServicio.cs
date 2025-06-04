@@ -161,21 +161,4 @@ public class UsuarioServicio : IUsuarioServicio
         return EmailResendResult.Enviado;
     }
 
-    public Usuario? ValidarLogin(string nombreUsuario, string contraseña)
-    {
-        var usuario = _context.Usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsuario);
-
-        if (usuario == null || !usuario.EmailVerificado)
-            return null;
-
-        var resultado = _passwordHasher.VerifyHashedPassword(nombreUsuario, usuario.Contraseña, contraseña);
-
-        return resultado == PasswordVerificationResult.Success ? usuario : null;
-    }
-
-    public bool EmailVerificadoCorrectamente(String gmail)
-    {
-        return _context.Usuarios.Any(u => u.Gmail == gmail && u.EmailVerificado);
-    }
-
 }
