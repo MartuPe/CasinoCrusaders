@@ -1,8 +1,9 @@
 ﻿using Entidades;
 using Entidades.EF;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity;
 using MimeKit;
-using MailKit.Net.Smtp;
+using Org.BouncyCastle.Crypto.Macs;
 using System.Net.Mail;
 
 namespace Servicio;
@@ -20,7 +21,8 @@ public interface IUsuarioServicio
     EmailVerificationResult VerificarEmailConToken(string token);
     EmailResendResult ReenviarToken(string gmail);
     Usuario? ValidarLogin(string nombreUsuario, string contraseña);
-    bool EmailVerificadoCorrectamente(string gmail);
+    bool ValidarSiGmailExiste(string? email);
+
 }
 public class UsuarioServicio : IUsuarioServicio
 {
@@ -48,6 +50,26 @@ public class UsuarioServicio : IUsuarioServicio
 
         EnviarCorreoVerificacion(usuario.Gmail, usuario.EmailVerificacionToken);
 
+    }
+
+    public Usuario? ValidarLogin(string nombreUsuario, string contraseña)
+    {
+        var usuario = _context.Usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsuario);
+
+        if (usuario == null)
+            return null;
+
+        var resultado = _passwordHasher.VerifyHashedPassword(nombreUsuario, usuario.Contraseña, contraseña);
+
+        return resultado == PasswordVerificationResult.Success ? usuario : null;
+    }
+
+    public bool ValidarSiGmailExiste(string? email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            return false;
+
+        return _context.Usuarios.Any(u => u.Gmail == email && u.EmailVerificado);
     }
 
     public Usuario ObtenerUsuarioPorId(int id)
