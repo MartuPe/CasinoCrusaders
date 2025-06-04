@@ -35,6 +35,27 @@ namespace CasinoCrusaders.Controllers
             return View(usuario);
         }
 
+        [HttpPost]
+        public IActionResult Login(Usuario usuario)
+        {
+            var usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.Contraseña);
+
+            if (usuarioValidado == null)
+            {
+                TempData["ErrorLogin"] = "Nombre de usuario o contraseña incorrectos";
+                return View(usuario);
+            }
+
+            if (!servicio.ValidarSiGmailExiste(usuarioValidado.Gmail))
+            {
+                TempData["ErrorVerificarEmail"] = "El correo no fue verificado. Por favor, verifica tu correo electrónico.";
+                return View(usuario);
+            }
+
+            TempData["MensajeDeExito"] = "Inicio de sesión exitoso.";
+            return RedirectToAction("Registrar");
+        }
+
         [HttpGet]
         public IActionResult Verificar(string token)
         {
