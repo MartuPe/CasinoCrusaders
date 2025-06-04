@@ -22,4 +22,6 @@ public partial class Usuario
     public DateTime? ExpiracionToken { get; set; }
 
     public bool EmailVerificado { get; set; }
+
+    public virtual Personaje? IdPersonajeNavigation { get; set; }
 }
