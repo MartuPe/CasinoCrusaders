@@ -25,12 +25,18 @@
 					<div class="mb-3">
 						<label asp-for="Gmail" class="form-label">Gmail</label>
 						<input asp-for="Gmail" class="form-control" />
-						<span asp-validation-for="Gmail" class="text-danger"></span>
+						@if (TempData["ErrorLogin"] != null)
+						{
+							<div style="color:red;">@TempData["ErrorLogin"]</div>
+						}
 					</div>
 					<div class="mb-3">
 						<label asp-for="Contraseña" class="form-label">Contraseña</label>
 						<input asp-for="Contraseña" type="password" class="form-control" />
-						<span asp-validation-for="Contraseña" class="text-danger"></span>
+						@if (TempData["ErrorLogin"] != null)
+						{
+							<div style="color:red;">@TempData["ErrorLogin"]</div>
+						}
 					</div>
 					<div class="d-grid">
 						<button type="submit" class="btn btn-primary">Entrar</button>

@@ -63,5 +63,26 @@ namespace CasinoCrusaders.Controllers
                 _ => StatusCode(500)
             };
         }
+
+        [HttpPost]
+        public IActionResult Login(Usuario usuario)
+        {
+            var usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.Contraseña);
+
+            if (usuarioValidado == null)
+            {
+                if (!servicio.EmailVerificadoCorrectamente(usuario.Gmail))
+                    TempData["ErrorLogin"] = "El correo electrónico no ha sido verificado. Por favor, verifica tu correo antes de iniciar sesión.";
+                else
+                    TempData["ErrorLogin"] = "Nombre de usuario o contraseña incorrectos, o el correo no fue verificado.";
+
+                return View(usuario);
+            }
+
+            // TODO: guardar login en sesión o autenticación real
+            TempData["MensajeDeExito"] = "Inicio de sesión exitoso.";
+            return RedirectToAction("Registrar");
+        }
+
     }
 }

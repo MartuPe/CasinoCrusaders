@@ -40,6 +40,6 @@ public class UsuarioMetadata
             return new ValidationResult("El correo electrónico ya está en uso.");
         }
         return ValidationResult.Success;
-    } //no funciona
+    } 
 }
 

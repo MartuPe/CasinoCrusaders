@@ -19,6 +19,8 @@ public interface IUsuarioServicio
     void EliminarUsuario(int id);
     EmailVerificationResult VerificarEmailConToken(string token);
     EmailResendResult ReenviarToken(string gmail);
+    Usuario? ValidarLogin(string nombreUsuario, string contraseña);
+    bool EmailVerificadoCorrectamente(string gmail);
 }
 public class UsuarioServicio : IUsuarioServicio
 {
@@ -135,6 +137,23 @@ public class UsuarioServicio : IUsuarioServicio
         EnviarCorreoVerificacion(gmail, usuario.EmailVerificacionToken);
 
         return EmailResendResult.Enviado;
+    }
+
+    public Usuario? ValidarLogin(string nombreUsuario, string contraseña)
+    {
+        var usuario = _context.Usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsuario);
+
+        if (usuario == null || !usuario.EmailVerificado)
+            return null;
+
+        var resultado = _passwordHasher.VerifyHashedPassword(nombreUsuario, usuario.Contraseña, contraseña);
+
+        return resultado == PasswordVerificationResult.Success ? usuario : null;
+    }
+
+    public bool EmailVerificadoCorrectamente(String gmail)
+    {
+        return _context.Usuarios.Any(u => u.Gmail == gmail && u.EmailVerificado);
     }
 
 }
