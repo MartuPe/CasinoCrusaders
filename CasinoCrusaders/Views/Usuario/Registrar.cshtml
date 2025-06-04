@@ -1,43 +1,5 @@
 ﻿@model Entidades.EF.Usuario
 <link rel="stylesheet" href="@Url.Content("~/css/Login.css")" />
-@* <body>
-	<div class="container">
-		<div class="image-side">
-			<img src="/Imagenes/Login.png" alt="Dragon Illustration" />
-		</div>
-		<div class="form-side">
-			<h2 class="logo">CASINO CRUSADERS</h2>
-			<p class="subtitle">Registrate aquí o <a asp-action="Login">Logueate</a> si ya tenes una cuenta.</p>
-
-			<div class="social-buttons">
-				<button class="social google">Google</button>
-				<button class="social facebook">Facebook</button>
-			</div>
-
-			<div class="divider">o</div>
-			<form asp-action="Registrar" method="post" class="register-form">
-				<div class="form-group">
-					<label asp-for="NombreUsuario" class="form-label"></label>
-					<input asp-for="NombreUsuario" class="form-control" />
-					<span asp-validation-for="NombreUsuario" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="Gmail" class="form-label"></label>
-					<input asp-for="Gmail" class="form-control" />
-					<span asp-validation-for="Gmail" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<label asp-for="Contraseña" class="form-label"></label>
-					<input asp-for="Contraseña" type="password" class="form-control pass-validation-1" />
-					<span asp-validation-for="Contraseña" class="text-danger"></span>
-				</div>
-				<div class="form-group">
-					<button type="submit" class="btn btn-primary">Registrar</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</body> *@
 <body>
 	<div class="login-container">
 		<div class="col-md-6 left-image"></div>
@@ -52,34 +14,34 @@
 					<button class="btn btn-light w-100">Facebook</button>
 				</div>
 
-				<div class="text-center text-secondary mb-3 small">o</div>
+				<div class="row">
+					<form asp-action="Registrar" method="post" class="register-form">
+						<div class="mb-3">
+							<label asp-for="NombreUsuario" class="form-label"></label>
+							<input asp-for="NombreUsuario" class="form-control" />
+							<span asp-validation-for="NombreUsuario" class="text-danger"></span>
+						</div>
+						<div class="mb-3">
+							<label asp-for="Gmail" class="form-label"></label>
+							<input asp-for="Gmail" class="form-control" />
+							<span asp-validation-for="Gmail" class="text-danger"></span>
+						</div>
+						<div class="mb-3">
+							<label asp-for="Contraseña" class="form-label"></label>
+							<input asp-for="Contraseña" type="password" class="form-control" />
+							<span asp-validation-for="Contraseña" class="text-danger"></span>
+						</div>
+						<div class="mb-3">
+							<label asp-for="RepiteContraseña" class="form-label"></label>
+							<input asp-for="RepiteContraseña" type="password" class="form-control" />
+							<span asp-validation-for="RepiteContraseña" class="text-danger"></span>
+						</div>
+						<div class="d-grid">
+							<button type="submit" class="btn btn-primary">Entrar</button>
+						</div>
+					</form>
+				</div>
 
-				<form asp-action="Registrar" method="post" class="register-form">
-					<div class="mb-3">
-						<label asp-for="NombreUsuario" class="form-label"></label>
-						<input asp-for="NombreUsuario" class="form-control" />
-						<span asp-validation-for="NombreUsuario" class="text-danger"></span>
-					</div>
-					<div class="mb-3">
-						<label asp-for="Gmail" class="form-label"></label>
-						<input asp-for="Gmail" class="form-control" />
-						<span asp-validation-for="Gmail" class="text-danger"></span>
-					</div>
-					<div class="mb-3">
-						<label asp-for="Contraseña" class="form-label"></label>
-						<input asp-for="Contraseña" type="password" class="form-control" />
-						<span asp-validation-for="Contraseña" class="text-danger"></span>
-						<span asp-validation-for="RepiteContraseña" class="text-danger"></span>
-					</div>
-					<div class="mb-3">
-						<label asp-for="RepiteContraseña" class="form-label"></label>
-						<input asp-for="RepiteContraseña" type="password" class="form-control" />
-						<span asp-validation-for="RepiteContraseña" class="text-danger"></span>
-					</div>
-					<div class="d-grid">
-						<button type="submit" class="btn btn-primary">Entrar</button>
-					</div>
-				</form>
 			</div>
 		</div>
 	</div>

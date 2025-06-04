@@ -1,8 +1,14 @@
 ﻿using Entidades;
 using Entidades.EF;
 using Microsoft.AspNetCore.Identity;
+using MimeKit;
+using MailKit.Net.Smtp;
+using System.Net.Mail;
 
 namespace Servicio;
+
+public enum EmailVerificationResult { Correcto, TokenInvalido, TokenExpirado }
+public enum EmailResendResult { Enviado, UsuarioNoEncontrado, YaVerificado }
 
 public interface IUsuarioServicio
 {
@@ -11,6 +17,8 @@ public interface IUsuarioServicio
     List<Usuario> ObtenerTodosLosUsuarios();
     void ActualizarUsuario(Usuario usuario);
     void EliminarUsuario(int id);
+    EmailVerificationResult VerificarEmailConToken(string token);
+    EmailResendResult ReenviarToken(string gmail);
 }
 public class UsuarioServicio : IUsuarioServicio
 {
@@ -35,6 +43,8 @@ public class UsuarioServicio : IUsuarioServicio
 
         _context.Usuarios.Add(usuario);
         _context.SaveChanges();
+
+        EnviarCorreoVerificacion(usuario.Gmail, usuario.EmailVerificacionToken);
 
     }
 
@@ -64,5 +74,64 @@ public class UsuarioServicio : IUsuarioServicio
         // Esto podría incluir la eliminación en una base de datos
     }
 
+    private void EnviarCorreoVerificacion(string email, string token)
+    {
+        string link = $"https://localhost:7000/Usuario/Verificar?token={token}";
+
+        var mensaje = new MimeMessage();
+        mensaje.From.Add(new MailboxAddress("CasinoCrusaders", "marty4009@gmail.com"));
+        mensaje.To.Add(MailboxAddress.Parse(email));
+        mensaje.Subject = "Verifica tu cuenta";
+
+        mensaje.Body = new TextPart("html")
+        {
+            Text = $@"
+                <h3>¡Gracias por registrarte en CasinoCrusaders!</h3>
+                <p>Haz clic en el siguiente enlace para verificar tu correo:</p>
+                <a href='{link}'>{link}</a>
+                <p>Este enlace expirará en 24 horas.</p>"
+        };
+
+        using var smtp = new MailKit.Net.Smtp.SmtpClient();
+        smtp.Connect("smtp.gmail.com", 587, false);
+        smtp.Authenticate("marty4009@gmail.com", "rcre rxfg uakt gbox");
+        smtp.Send(mensaje);
+        smtp.Disconnect(true);
+    }
+
+    public EmailVerificationResult VerificarEmailConToken(string token)
+    {
+        var usuario = _context.Usuarios.FirstOrDefault(u => u.EmailVerificacionToken == token);
+        if (usuario == null)
+            return EmailVerificationResult.TokenInvalido;
+
+        if (usuario.ExpiracionToken < DateTime.UtcNow)
+            return EmailVerificationResult.TokenExpirado;
+
+        usuario.EmailVerificado = true;
+        usuario.EmailVerificacionToken = null;
+        usuario.ExpiracionToken = null;
+        _context.SaveChanges();
+
+        return EmailVerificationResult.Correcto;
+    }
+
+    public EmailResendResult ReenviarToken(string gmail)
+    {
+        var usuario = _context.Usuarios.FirstOrDefault(u => u.Gmail == gmail);
+        if (usuario == null)
+            return EmailResendResult.UsuarioNoEncontrado;
+
+        if (usuario.EmailVerificado)
+            return EmailResendResult.YaVerificado;
+
+        usuario.EmailVerificacionToken = Guid.NewGuid().ToString("N");
+        usuario.ExpiracionToken = DateTime.UtcNow.AddHours(24);
+        _context.SaveChanges();
+
+        EnviarCorreoVerificacion(gmail, usuario.EmailVerificacionToken);
+
+        return EmailResendResult.Enviado;
+    }
 
 }
