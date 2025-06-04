@@ -35,7 +35,7 @@ namespace CasinoCrusaders.Controllers
             return View(usuario);
         }
 
-        [HttpGet("/Verificar")]
+        [HttpGet]
         public IActionResult Verificar(string token)
         {
             var resultado = servicio.VerificarEmailConToken(token);

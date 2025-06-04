@@ -86,10 +86,13 @@ public class UsuarioServicio : IUsuarioServicio
         mensaje.Body = new TextPart("html")
         {
             Text = $@"
-                <h3>¡Gracias por registrarte en CasinoCrusaders!</h3>
-                <p>Haz clic en el siguiente enlace para verificar tu correo:</p>
-                <a href='{link}'>{link}</a>
-                <p>Este enlace expirará en 24 horas.</p>"
+        <h3>¡Gracias por registrarte en CasinoCrusaders!</h3>
+        <p>Haz clic en el siguiente botón para verificar tu correo:</p>
+        <a href='{link}' 
+           style='display: inline-block; padding: 10px 20px; font-size: 16px; 
+                  color: white; background-color: #007bff; text-decoration: none; 
+                  border-radius: 5px;'>Verifica tu correo</a>
+        <p>Este enlace expirará en 24 horas.</p>"
         };
 
         using var smtp = new MailKit.Net.Smtp.SmtpClient();
