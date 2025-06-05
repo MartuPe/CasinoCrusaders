@@ -1,0 +1,110 @@
+﻿@model CasinoCrusaders.ViewModels.EnemigosViewModel;
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="@Url.Content("~/css/enemigos.css")" />
+
+<h2 class="mb-4 mt-4 ">Listado de Enemigos</h2>
+
+
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-warning">@ViewBag.Mensaje</div>
+}
+
+
+
+@if (Model.Enemigos.Count > 0)
+{
+
+<table class="table table-dark table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Vida</th>
+            <th>Ataque</th>
+            <th>Defensa</th>
+           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var enemigo in Model.Enemigos)
+        {
+            <tr>
+                <td>@enemigo.Nombre</td>
+                <td>@enemigo.Vida</td>
+                <td>@enemigo.Ataque</td>
+                <td>@enemigo.Defensa</td>
+            </tr>
+        }
+    </tbody>
+</table> 
+}
+
+<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Registrar Enemigo
+</button>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Enemigo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form asp-controller="Enemigo" asp-action="RegistrarEnemigo" method="post">
+                    <div class="container">
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Nombre" class="col-sm-3 col-form-label text-end">Nombre</label>
+                            <div class="col-sm-6">
+                                <input type="text" asp-for="NuevoEnemigo.Nombre" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Nombre" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Vida" class="col-sm-3 col-form-label text-end">Vida</label>
+                            <div class="col-sm-6">
+                                <input type="number" asp-for="NuevoEnemigo.Vida" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Vida" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Ataque" class="col-sm-3 col-form-label text-end">Ataque</label>
+                            <div class="col-sm-6">
+                                <input type="number" asp-for="NuevoEnemigo.Ataque" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Ataque" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Defensa" class="col-sm-3 col-form-label text-end">Defensa</label>
+                            <div class="col-sm-6">
+                                <input type="number" asp-for="NuevoEnemigo.Defensa" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Defensa" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save changes</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
