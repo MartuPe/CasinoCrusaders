@@ -58,7 +58,7 @@ public class UsuarioServicio : IUsuarioServicio
 
         if (usuario == null)
             return null;
-
+        //falta validar que la contraseña no llegue vacia
         var resultado = _passwordHasher.VerifyHashedPassword(nombreUsuario, usuario.Contraseña, contraseña);
 
         return resultado == PasswordVerificationResult.Success ? usuario : null;

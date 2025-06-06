@@ -35,6 +35,7 @@
 					<div class="mb-3">
 						<label asp-for="Contraseña" class="form-label">Contraseña</label>
 						<input asp-for="Contraseña" type="password" class="form-control" />
+						<span asp-validation-for="Contraseña" class="text-danger"></span>
 						@if (TempData["ErrorLogin"] != null)
 						{
 							<div class="alert alert-success text-center">
