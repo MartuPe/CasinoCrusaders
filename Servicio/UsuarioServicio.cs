@@ -15,6 +15,8 @@ public interface IUsuarioServicio
 {
     void AgregarUsuario(Usuario usuario);
     Usuario ObtenerUsuarioPorId(int id);
+
+    Usuario ObtenerUsuarioPorEmail(String email);
     List<Usuario> ObtenerTodosLosUsuarios();
     void ActualizarUsuario(Usuario usuario);
     void EliminarUsuario(int id);
@@ -74,9 +76,12 @@ public class UsuarioServicio : IUsuarioServicio
 
     public Usuario ObtenerUsuarioPorId(int id)
     {
-        // Lógica para obtener un usuario por su ID
-        // Esto podría incluir la búsqueda en una base de datos
-        return new Usuario(); // Retorna un nuevo objeto Usuario como ejemplo
+       return _context.Usuarios.Find(id);
+    }
+
+    public Usuario ObtenerUsuarioPorEmail(string email)
+    {
+        return _context.Usuarios.FirstOrDefault(u => u.Gmail == email);
     }
 
     public List<Usuario> ObtenerTodosLosUsuarios()
@@ -161,4 +166,5 @@ public class UsuarioServicio : IUsuarioServicio
         return EmailResendResult.Enviado;
     }
 
+   
 }
