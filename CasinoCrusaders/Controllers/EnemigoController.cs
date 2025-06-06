@@ -45,5 +45,39 @@ namespace CasinoCrusaders.Controllers
 
             return RedirectToAction("Enemigos");
         }
+
+        [HttpPost]
+        public IActionResult EditarEnemigo(Enemigo enemigo)
+        {
+            if (ModelState.IsValid)
+            {
+                _enemigoServicio.EditarEnemigo(enemigo);
+                return RedirectToAction("Enemigos");
+            }
+
+            
+            var model = new EnemigosViewModel
+            {
+                Enemigos = _enemigoServicio.ObtenerListaDeEnemigos(),
+                NuevoEnemigo = enemigo 
+            };
+
+            ViewBag.MensajeError = "Error al editar el enemigo. Verifica los datos ingresados.";
+
+            return View("Enemigos", model);
+        }
+
+
+        [HttpPost]
+        public IActionResult EliminarEnemigo(int id) {
+
+            if (id > 0)
+            {
+                _enemigoServicio.EliminarEnemigo(id);
+                return RedirectToAction("Enemigos");
+            }
+
+            return RedirectToAction("Enemigos");
+        }
     }
 }

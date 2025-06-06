@@ -14,6 +14,10 @@ namespace Servicio
         List<Enemigo> ObtenerListaDeEnemigos();
 
         void RegistrarEnemigo(Enemigo enemigo);
+
+        void EliminarEnemigo(int id);
+
+        void EditarEnemigo(Enemigo enemigo);
     }
 
     public class EnemigoServicio : IEnemigoServicio
@@ -46,5 +50,20 @@ namespace Servicio
             _context.Enemigos.Add(enemigo);
             _context.SaveChanges();
         }
+
+        public void EditarEnemigo(Enemigo enemigo)
+        {
+            _context.Enemigos.Update(enemigo);
+            _context.SaveChanges();
+        }
+
+        public void EliminarEnemigo(int id)
+        {
+            var enemigo = ObtenerEnemigo(id);
+            _context.Enemigos.Remove(enemigo);
+            _context.SaveChanges();
+        }
+
+
     }
 }

@@ -16,14 +16,14 @@ namespace CasinoCrusaders.Controllers
             _usuarioServicio = usuarioServicio;
         }
 
-        [HttpGet("ObtenerPorNombre")]
-        public ActionResult ObtenerUsuarioPorNombre(String nombre)
+        [HttpGet("ObtenerPorEmail")]
+        public ActionResult ObtenerUsuarioPorEmail(String email)
         {
-            var usuario = _usuarioServicio.ObtenerUsuarioPorNombre(nombre);
+            var usuario = _usuarioServicio.ObtenerUsuarioPorEmail(email);
 
             if (usuario == null)
             {
-                return NotFound($"No se encontro ningun usuario con nombre {nombre}");
+                return NotFound("No se encontro ningun usuario");
             }
             return Ok(usuario);
 
