@@ -38,7 +38,11 @@ namespace CasinoCrusaders.Controllers
         [HttpPost]
         public IActionResult Login(Usuario usuario)
         {
-            var usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.Contraseña);
+            Usuario usuarioValidado = null;
+            if (ModelState.IsValid)
+            {
+                usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.Contraseña);
+            }
 
             if (usuarioValidado == null)
             {

@@ -13,14 +13,10 @@
 		<div class="col-md-6 left-image"></div>
 
 		<div class="col-md-6 col-12 form-container">
-			<div class="login-form">
+			<div class="login-form" style="gap: 1rem;">
 				<h2 class="text-center fw-bold mb-3">CASINO CRUSADERS</h2>
 				<p class="text-center">Logueate aquí o <a asp-action="Registrar">Registrate</a> si no tenes una cuenta.</p>
 
-				<div class="d-flex justify-content-between gap-2 mb-3">
-					<button class="btn btn-light w-100">Google</button>
-					<button class="btn btn-light w-100">Facebook</button>
-				</div>
 				<form asp-action="Login">
 					<div class="mb-3">
 						<label asp-for="NombreUsuario" class="form-label">Nombre de usuario</label>
@@ -35,7 +31,6 @@
 					<div class="mb-3">
 						<label asp-for="Contraseña" class="form-label">Contraseña</label>
 						<input asp-for="Contraseña" type="password" class="form-control" />
-						<span asp-validation-for="Contraseña" class="text-danger"></span>
 						@if (TempData["ErrorLogin"] != null)
 						{
 							<div class="alert alert-success text-center">

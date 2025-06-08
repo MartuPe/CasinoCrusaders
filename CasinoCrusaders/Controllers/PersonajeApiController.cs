@@ -19,7 +19,6 @@ namespace CasinoCrusaders.Controllers
         [HttpGet]
         public IActionResult ObtenerPersonaje(int IdPersonaje)
         {
-
             var personaje = _personajeServicio.ObtenerPersonaje(IdPersonaje);
             if (personaje == null)
             {
