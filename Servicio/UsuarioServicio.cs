@@ -43,6 +43,7 @@ public class UsuarioServicio : IUsuarioServicio
         DateTime expiration = DateTime.UtcNow.AddHours(24);
         string passwordHasheada = _passwordHasher.HashPassword(usuario.NombreUsuario, usuario.Contraseña);
 
+        usuario.TipoUsuario = "Usuario";
         usuario.Contraseña = passwordHasheada;
         usuario.EmailVerificacionToken = token;
         usuario.ExpiracionToken = expiration;
@@ -60,7 +61,7 @@ public class UsuarioServicio : IUsuarioServicio
 
         if (usuario == null)
             return null;
-        //falta validar que la contraseña no llegue vacia
+      
         var resultado = _passwordHasher.VerifyHashedPassword(nombreUsuario, usuario.Contraseña, contraseña);
 
         return resultado == PasswordVerificationResult.Success ? usuario : null;

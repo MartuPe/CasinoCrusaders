@@ -1,8 +1,9 @@
-using System.Diagnostics;
 using Entidades;
 using Entidades.EF;
 using Microsoft.AspNetCore.Mvc;
 using Servicio;
+using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CasinoCrusaders.Controllers
 {
@@ -30,6 +31,7 @@ namespace CasinoCrusaders.Controllers
             if (ModelState.IsValid)
             {
                 servicio.AgregarUsuario(usuario);
+                HttpContext.Session.SetString("Rol", usuario.TipoUsuario);
                 return RedirectToAction("Login");
             }
             return View(usuario);
@@ -56,8 +58,14 @@ namespace CasinoCrusaders.Controllers
                 return View(usuario);
             }
 
-            TempData["MensajeDeExito"] = "Inicio de sesión exitoso.";
-            return RedirectToAction("Registrar");
+            HttpContext.Session.SetInt32("Id", usuarioValidado.IdUsuario);
+            HttpContext.Session.SetString("Nombre", usuarioValidado.NombreUsuario);         
+
+            if (usuarioValidado.TipoUsuario == "Admin")
+                return RedirectToAction("Perfil", "Admin");
+
+            return RedirectToAction("Perfil", "Personaje");
+            //return RedirectToAction("Registrar");
         }
 
         [HttpGet]
