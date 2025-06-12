@@ -1,9 +1,10 @@
-using System.Diagnostics;
 using CasinoCrusaders.ViewModels;
 using Entidades;
 using Entidades.EF;
 using Microsoft.AspNetCore.Mvc;
 using Servicio;
+using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CasinoCrusaders.Controllers
 {
@@ -31,6 +32,7 @@ namespace CasinoCrusaders.Controllers
             if (ModelState.IsValid)
             {
                 servicio.AgregarUsuario(usuario);
+                HttpContext.Session.SetString("Rol", usuario.TipoUsuario);
                 return RedirectToAction("Login");
             }
             return View(usuario);
@@ -39,22 +41,34 @@ namespace CasinoCrusaders.Controllers
         [HttpPost]
         public IActionResult Login(Usuario usuario)
         {
-            var usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.ContraseÒa);
+            Usuario usuarioValidado = null;
+            if (ModelState.IsValid)
+            {
+                usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.Contrase√±a);
+            }
 
             if (usuarioValidado == null)
             {
-                TempData["ErrorLogin"] = "Nombre de usuario o contraseÒa incorrectos";
+                TempData["ErrorLogin"] = "Nombre de usuario o contrase√±a incorrectos";
                 return View(usuario);
             }
 
             if (!servicio.ValidarSiGmailExiste(usuarioValidado.Gmail))
             {
-                TempData["ErrorVerificarEmail"] = "El correo no fue verificado. Por favor, verifica tu correo electrÛnico.";
+                TempData["ErrorVerificarEmail"] = "El correo no fue verificado. Por favor, verifica tu correo electr√≥nico.";
                 return View(usuario);
             }
 
-            TempData["MensajeDeExito"] = "Inicio de sesiÛn exitoso.";
-            return RedirectToAction("registrar");
+
+            HttpContext.Session.SetInt32("Id", usuarioValidado.IdUsuario);
+            HttpContext.Session.SetString("Nombre", usuarioValidado.NombreUsuario);         
+
+            if (usuarioValidado.TipoUsuario == "Admin")
+                return RedirectToAction("Perfil", "Admin");
+
+            return RedirectToAction("Perfil", "Personaje");
+            //return RedirectToAction("Registrar");
+
         }
 
         [HttpGet]
@@ -63,12 +77,12 @@ namespace CasinoCrusaders.Controllers
             var resultado = servicio.VerificarEmailConToken(token);
 
             if (resultado == EmailVerificationResult.TokenInvalido)
-                return BadRequest("Token inv·lido.");
+                return BadRequest("Token inv√°lido.");
 
             if (resultado == EmailVerificationResult.TokenExpirado)
                 return BadRequest("El token ha expirado. Solicita uno nuevo.");
 
-            TempData["MensajeDeExito"] = "Correo verificado exitosamente. °Bienvenido a CasinoCrusaders!";
+            TempData["MensajeDeExito"] = "Correo verificado exitosamente. ¬°Bienvenido a CasinoCrusaders!";
             return RedirectToAction("Login");
         }
 
@@ -81,7 +95,7 @@ namespace CasinoCrusaders.Controllers
             {
                 EmailResendResult.UsuarioNoEncontrado => NotFound("Usuario no encontrado."),
                 EmailResendResult.YaVerificado => BadRequest("El correo ya fue verificado."),
-                EmailResendResult.Enviado => Ok("Correo de verificaciÛn reenviado."),
+                EmailResendResult.Enviado => Ok("Correo de verificaci√≥n reenviado."),
                 _ => StatusCode(500)
             };
         }
@@ -123,7 +137,7 @@ namespace CasinoCrusaders.Controllers
         {
             if (servicio.ExisteOtroUsuarioConEseEmail(usuario.IdUsuario, usuario.Gmail))
             {
-                ModelState.AddModelError("Usuario.Gmail", "El correo electrÛnico ya est· en uso por otro usuario.");
+                ModelState.AddModelError("Usuario.Gmail", "El correo electr√≥nico ya est√° en uso por otro usuario.");
             }
 
             if (ModelState.IsValid)

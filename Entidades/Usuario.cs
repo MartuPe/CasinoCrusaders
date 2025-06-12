@@ -25,7 +25,7 @@ public class UsuarioMetadata
     public string Gmail { get; set; } = null!;
 
     [Required(ErrorMessage = "La Contraseña es requerido.")]
-    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$", ErrorMessage = "La contraseña debe tener entre 8 y 20 caracteres, al menos una mayúscula, una minúscula y un número.")]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,20}$", ErrorMessage = "La contraseña debe tener entre 8 y 20 caracteres,</br> al menos 1 mayúscula, 1 minúsucula y un número.")]
     public string Contraseña { get; set; } = null!;
 
     [Required(ErrorMessage = "Debes repetir la contraseña")]
