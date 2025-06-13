@@ -15,9 +15,8 @@ namespace CasinoCrusaders.Controllers
             _enemigoServicio = enemigoServicio;
         }
 
-        public IActionResult Enemigos()
+        public IActionResult MostrarEnemigos()
         {
-
             var model = new EnemigosViewModel
             {
                 Enemigos = _enemigoServicio.ObtenerListaDeEnemigos(),
@@ -34,16 +33,29 @@ namespace CasinoCrusaders.Controllers
 
         }
 
+        public IActionResult EnemigosDetalles(int id)
+        {
+            var enemigo = _enemigoServicio.ObtenerEnemigo(id);
+            if (enemigo!= null)
+            {
+                return View(enemigo);
+            }
+
+            TempData["MensajeError"] = "No se encontro el enemigo buscado. Verifica los datos ingresados.";
+
+            return RedirectToAction("MostrarEnemigos");
+        }
+
         [HttpPost]
         public IActionResult RegistrarEnemigo(EnemigosViewModel enemigo)
         {
             if (ModelState.IsValid)
             {
                 _enemigoServicio.RegistrarEnemigo(enemigo.NuevoEnemigo);
-                return RedirectToAction("Enemigos");
+                return RedirectToAction("mostrarEnemigos");
             }
 
-            return RedirectToAction("Enemigos");
+            return RedirectToAction("mostrarEnemigos");
         }
 
         [HttpPost]
@@ -52,19 +64,13 @@ namespace CasinoCrusaders.Controllers
             if (ModelState.IsValid)
             {
                 _enemigoServicio.EditarEnemigo(enemigo);
-                return RedirectToAction("Enemigos");
+                return RedirectToAction("EnemigosDetalles", new {id = enemigo.IdEnemigo});
             }
 
-            
-            var model = new EnemigosViewModel
-            {
-                Enemigos = _enemigoServicio.ObtenerListaDeEnemigos(),
-                NuevoEnemigo = enemigo 
-            };
 
-            ViewBag.MensajeError = "Error al editar el enemigo. Verifica los datos ingresados.";
+            TempData["MensajeError"] = "Error al editar el enemigo. Verifica los datos ingresados.";
 
-            return View("Enemigos", model);
+            return RedirectToAction("EnemigosDetalles", new {id = enemigo.IdEnemigo});
         }
 
 
@@ -74,10 +80,10 @@ namespace CasinoCrusaders.Controllers
             if (id > 0)
             {
                 _enemigoServicio.EliminarEnemigo(id);
-                return RedirectToAction("Enemigos");
+                return RedirectToAction("MostrarEnemigos");
             }
 
-            return RedirectToAction("Enemigos");
+            return RedirectToAction("EnemigosDetalles" , new {id = id});
         }
     }
 }
