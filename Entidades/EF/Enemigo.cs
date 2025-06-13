@@ -15,5 +15,9 @@ public partial class Enemigo
 
     public int? Defensa { get; set; }
 
+    public string? Descripcion { get; set; }
+
+    public string? Imagen { get; set; }
+
     public virtual ICollection<Nivel> Nivels { get; set; } = new List<Nivel>();
 }

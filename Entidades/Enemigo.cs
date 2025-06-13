@@ -20,6 +20,10 @@ namespace Entidades.EF
         [Required (ErrorMessage ="el campo nombre es obligatorio")]
         public string? Nombre { get; set; }
 
+        [Required(ErrorMessage ="la descripcion es obligatoria")]
+        public string? Descripcion { get; set; }
+
+
         [Required(ErrorMessage = "el campo vida es obligatorio")]
         [Range (1,int.MaxValue, ErrorMessage ="el campo vida debe ser mayor a 0")]
         public int? Vida { get; set; }

@@ -20,10 +20,10 @@
         
  
     <div class="card">
-        <img src="https://i.postimg.cc/2yGS1Gkn/enemigo-Carta.png" class="card-img-top" alt="enemigoCarta">
+        <img src="@enemigo.Imagen" class="card-img-top" alt="enemigoCarta">
         <div class="card-body d-flex justify-content-center align-items-center flex-column text-center">
             <h5 class="card-title">@enemigo.Nombre</h5>
-            <p class="card-text">Primer enemigo encontrado al comienzo del juego, utilizado en la introducción al juego.</p>
+            <p class="card-text">@enemigo.Descripcion</p>
             <a href="/enemigo/EnemigosDetalles/@enemigo.IdEnemigo" class="btn btn-primary">Detalles</a>
         </div>
     </div>
@@ -58,6 +58,24 @@
                                 <span asp-validation-for="NuevoEnemigo.Nombre" class="text-danger"></span>
                             </div>
                         </div>
+
+                         <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Descripcion" class="col-sm-3 col-form-label text-end">Descripcion</label>
+                            <div class="col-sm-6">
+                                <input type="text" asp-for="NuevoEnemigo.Descripcion" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Descripcion" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Imagen" class="col-sm-3 col-form-label text-end">ImagenUrl</label>
+                            <div class="col-sm-6">
+                                <input type="text" asp-for="NuevoEnemigo.Imagen" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Imagen" class="text-danger"></span>
+                            </div>
+                        </div>
+
 
                         <div class="row mb-3">
                             <label asp-for="NuevoEnemigo.Vida" class="col-sm-3 col-form-label text-end">Vida</label>
