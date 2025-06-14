@@ -17,6 +17,9 @@ namespace CasinoCrusaders.Controllers
 
         public IActionResult MostrarEnemigos()
         {
+
+            ViewBag.Rol = HttpContext.Session.GetString("Rol");
+
             var model = new EnemigosViewModel
             {
                 Enemigos = _enemigoServicio.ObtenerListaDeEnemigos(),
@@ -35,6 +38,9 @@ namespace CasinoCrusaders.Controllers
 
         public IActionResult EnemigosDetalles(int id)
         {
+
+            ViewBag.Rol = HttpContext.Session.GetString("Rol");
+
             var enemigo = _enemigoServicio.ObtenerEnemigo(id);
             if (enemigo!= null)
             {
