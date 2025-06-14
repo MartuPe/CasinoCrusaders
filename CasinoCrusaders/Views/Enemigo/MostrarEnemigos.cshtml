@@ -1,0 +1,121 @@
+﻿@model CasinoCrusaders.ViewModels.EnemigosViewModel;
+<link rel="stylesheet" href="@Url.Content("~/css/Enemigos.css")" />
+
+<h1 class="text-center mt-4">Enemigos</h1>
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-warning">@ViewBag.Mensaje</div>
+}
+
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger">@TempData["MensajeError"]</div>
+}
+
+<section class="enemigos mt-5">
+
+    @foreach(var enemigo in Model.Enemigos)
+    {
+        
+ 
+    <div class="card">
+        <img src="@enemigo.Imagen" class="card-img-top" alt="enemigoCarta">
+        <div class="card-body d-flex justify-content-center align-items-center flex-column text-center">
+            <h5 class="card-title">@enemigo.Nombre</h5>
+            <p class="card-text">@enemigo.Descripcion</p>
+            <a href="/enemigo/EnemigosDetalles/@enemigo.IdEnemigo" class="btn btn-primary">Detalles</a>
+        </div>
+    </div>
+
+    }
+
+</section>
+
+<div class="d-flex justify-content-center align-items-center mt-5 mb-5">
+    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#crearEnemigoModal">
+        Registrar Enemigo
+    </button>
+</div>
+
+
+<div class="modal fade" id="crearEnemigoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar Enemigo</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form asp-controller="Enemigo" asp-action="RegistrarEnemigo" method="post">
+                    <div class="container">
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Nombre" class="col-sm-3 col-form-label text-end">Nombre</label>
+                            <div class="col-sm-6">
+                                <input type="text" asp-for="NuevoEnemigo.Nombre" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Nombre" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                         <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Descripcion" class="col-sm-3 col-form-label text-end">Descripcion</label>
+                            <div class="col-sm-6">
+                                <input type="text" asp-for="NuevoEnemigo.Descripcion" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Descripcion" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Imagen" class="col-sm-3 col-form-label text-end">ImagenUrl</label>
+                            <div class="col-sm-6">
+                                <input type="text" asp-for="NuevoEnemigo.Imagen" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Imagen" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Vida" class="col-sm-3 col-form-label text-end">Vida</label>
+                            <div class="col-sm-6">
+                                <input type="number" asp-for="NuevoEnemigo.Vida" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Vida" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Ataque" class="col-sm-3 col-form-label text-end">Ataque</label>
+                            <div class="col-sm-6">
+                                <input type="number" asp-for="NuevoEnemigo.Ataque" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Ataque" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label asp-for="NuevoEnemigo.Defensa" class="col-sm-3 col-form-label text-end">Defensa</label>
+                            <div class="col-sm-6">
+                                <input type="number" asp-for="NuevoEnemigo.Defensa" class="form-control" />
+                                <span asp-validation-for="NuevoEnemigo.Defensa" class="text-danger"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save changes</button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -14,4 +14,9 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult IndexUsuario()
+    {
+        return View();
+    }
+
 }
