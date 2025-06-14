@@ -1,3 +1,4 @@
+using CasinoCrusaders.ViewModels;
 using Entidades;
 using Entidades.EF;
 using Microsoft.AspNetCore.Mvc;
@@ -42,20 +43,21 @@ namespace CasinoCrusaders.Controllers
         {
             Usuario usuarioValidado = null;
 
-            usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.Contraseña);
+            usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.ContraseÃ±a);
 
 
             if (usuarioValidado == null)
             {
-                TempData["ErrorLogin"] = "Nombre de usuario o contraseña incorrectos";
+                TempData["ErrorLogin"] = "Nombre de usuario o contraseÃ±a incorrectos";
                 return View(usuario);
             }
 
             if (!servicio.ValidarSiGmailExiste(usuarioValidado.Gmail))
             {
-                TempData["ErrorVerificarEmail"] = "El correo no fue verificado. Por favor, verifica tu correo electrónico.";
+                TempData["ErrorVerificarEmail"] = "El correo no fue verificado. Por favor, verifica tu correo electrÃ³nico.";
                 return View(usuario);
             }
+
 
             HttpContext.Session.SetInt32("Id", usuarioValidado.IdUsuario);
             HttpContext.Session.SetString("Nombre", usuarioValidado.NombreUsuario);
@@ -65,6 +67,7 @@ namespace CasinoCrusaders.Controllers
 
             return RedirectToAction("Perfil", "Personaje");
             //return RedirectToAction("Registrar");
+
         }
 
         [HttpGet]
@@ -73,12 +76,12 @@ namespace CasinoCrusaders.Controllers
             var resultado = servicio.VerificarEmailConToken(token);
 
             if (resultado == EmailVerificationResult.TokenInvalido)
-                return BadRequest("Token inválido.");
+                return BadRequest("Token invÃ¡lido.");
 
             if (resultado == EmailVerificationResult.TokenExpirado)
                 return BadRequest("El token ha expirado. Solicita uno nuevo.");
 
-            TempData["MensajeDeExito"] = "Correo verificado exitosamente. ¡Bienvenido a CasinoCrusaders!";
+            TempData["MensajeDeExito"] = "Correo verificado exitosamente. Â¡Bienvenido a CasinoCrusaders!";
             return RedirectToAction("Login");
         }
 
@@ -91,10 +94,110 @@ namespace CasinoCrusaders.Controllers
             {
                 EmailResendResult.UsuarioNoEncontrado => NotFound("Usuario no encontrado."),
                 EmailResendResult.YaVerificado => BadRequest("El correo ya fue verificado."),
-                EmailResendResult.Enviado => Ok("Correo de verificación reenviado."),
+                EmailResendResult.Enviado => Ok("Correo de verificaciÃ³n reenviado."),
                 _ => StatusCode(500)
             };
         }
+
+
+        public IActionResult AdministrarUsuarios(string busqueda)
+        {
+            var todosLosUsuarios = servicio.ObtenerTodosLosUsuarios();
+
+            if (!string.IsNullOrEmpty(busqueda))
+            {
+                todosLosUsuarios = todosLosUsuarios
+                    .Where(u => u.Gmail.Contains(busqueda, StringComparison.OrdinalIgnoreCase) ||
+                                u.NombreUsuario.Contains(busqueda, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            var model = new UsuariosViewModel
+            {
+                Usuarios = todosLosUsuarios,
+                Usuario = new EditarUsuarioViewModel()
+            };
+
+            if (model.Usuarios.Count > 0)
+            {
+                return View(model);
+            }
+
+            ViewBag.Mensaje = string.IsNullOrEmpty(busqueda)
+                ? "No hay usuarios registrados"
+                : $"No se encontraron usuarios que coincidan con: \"{busqueda}\"";
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult EditarUsuario(EditarUsuarioViewModel usuario)
+        {
+            if (servicio.ExisteOtroUsuarioConEseEmail(usuario.IdUsuario, usuario.Gmail))
+            {
+                ModelState.AddModelError("Usuario.Gmail", "El correo electrÃ³nico ya estÃ¡ en uso por otro usuario.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                var usuarioNuevo = servicio.ObtenerUsuarioPorId(usuario.IdUsuario);
+                usuarioNuevo.Gmail = usuario.Gmail;
+                usuarioNuevo.NombreUsuario = usuario.NombreUsuario;
+                servicio.ActualizarUsuario(usuarioNuevo);
+                return RedirectToAction("AdministrarUsuarios");
+            }
+
+            var model = new UsuariosViewModel
+            {
+                Usuarios = servicio.ObtenerTodosLosUsuarios(),
+                Usuario = usuario
+            };
+
+            ViewBag.MostrarModal = true;
+
+            ViewBag.MensajeError = "Error al editar el usuario. Verifica los datos ingresados.";
+
+            return View("AdministrarUsuarios", model);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult HacerAdministrador(int id)
+        {
+            if (id > 0)
+            {
+                var usuario = servicio.ObtenerUsuarioPorId(id);
+                usuario.TipoUsuario = "Admin";
+                servicio.ActualizarUsuario(usuario);
+                return RedirectToAction("AdministrarUsuarios");
+            }
+            var model = new UsuariosViewModel
+            {
+                Usuarios = servicio.ObtenerTodosLosUsuarios(),
+                Usuario = new EditarUsuarioViewModel()
+            };
+
+            ViewBag.MensajeError = "Error al editar el usuario. Verifica los datos ingresados.";
+
+            return View("AdministrarUsuarios", model);
+        }
+
+
+        [HttpPost]
+        public IActionResult EliminarUsuario(int id)
+        {
+
+            if (id > 0)
+            {
+                servicio.EliminarUsuario(id);
+                return RedirectToAction("AdministrarUsuarios");
+            }
+
+            return RedirectToAction("AdministrarUsuarios");
+        }
+
 
     }
 }

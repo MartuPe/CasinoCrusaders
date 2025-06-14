@@ -15,7 +15,6 @@ public interface IUsuarioServicio
 {
     void AgregarUsuario(Usuario usuario);
     Usuario ObtenerUsuarioPorId(int id);
-
     Usuario ObtenerUsuarioPorEmail(String email);
     List<Usuario> ObtenerTodosLosUsuarios();
     void ActualizarUsuario(Usuario usuario);
@@ -24,6 +23,8 @@ public interface IUsuarioServicio
     EmailResendResult ReenviarToken(string gmail);
     Usuario? ValidarLogin(string nombreUsuario, string contraseña);
     bool ValidarSiGmailExiste(string? email);
+
+    bool ExisteOtroUsuarioConEseEmail(int idUsuarioActual, string email);
 
 }
 public class UsuarioServicio : IUsuarioServicio
@@ -87,21 +88,20 @@ public class UsuarioServicio : IUsuarioServicio
 
     public List<Usuario> ObtenerTodosLosUsuarios()
     {
-        // Lógica para obtener todos los usuarios
-        // Esto podría incluir la búsqueda en una base de datos
-        return new List<Usuario>(); // Retorna una lista vacía como ejemplo
+        return _context.Usuarios.ToList();
     }
 
     public void ActualizarUsuario(Usuario usuario)
     {
-        // Lógica para actualizar un usuario existente
-        // Esto podría incluir la validación de datos y la actualización en una base de datos
+        _context.Usuarios.Update(usuario);
+        _context.SaveChanges();
     }
 
     public void EliminarUsuario(int id)
     {
-        // Lógica para eliminar un usuario por su ID
-        // Esto podría incluir la eliminación en una base de datos
+        var usuario = ObtenerUsuarioPorId(id);
+        _context.Usuarios.Remove(usuario);
+        _context.SaveChanges();
     }
 
     private void EnviarCorreoVerificacion(string email, string token)
@@ -167,5 +167,11 @@ public class UsuarioServicio : IUsuarioServicio
         return EmailResendResult.Enviado;
     }
 
-   
+
+    public bool ExisteOtroUsuarioConEseEmail(int idUsuarioActual, string gmail)
+    {
+        return _context.Usuarios.Any(u => u.Gmail == gmail && u.IdUsuario != idUsuarioActual);
+    }
+
+
 }
