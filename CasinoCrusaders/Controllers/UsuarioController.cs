@@ -32,7 +32,6 @@ namespace CasinoCrusaders.Controllers
             if (ModelState.IsValid)
             {
                 servicio.AgregarUsuario(usuario);
-                HttpContext.Session.SetString("Rol", usuario.TipoUsuario);
                 return RedirectToAction("Login");
             }
             return View(usuario);
@@ -44,6 +43,7 @@ namespace CasinoCrusaders.Controllers
             Usuario usuarioValidado = null;
 
             usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.Contraseña);
+            HttpContext.Session.SetString("Rol", usuarioValidado.TipoUsuario);
 
 
             if (usuarioValidado == null)
@@ -63,10 +63,9 @@ namespace CasinoCrusaders.Controllers
             HttpContext.Session.SetString("Nombre", usuarioValidado.NombreUsuario);
 
             if (usuarioValidado.TipoUsuario == "Admin")
-                return RedirectToAction("Perfil", "Admin");
+                return RedirectToAction("IndexAdmin", "Home");
 
-            return RedirectToAction("Perfil", "Personaje");
-            //return RedirectToAction("Registrar");
+            return RedirectToAction("IndexUsuario", "Home");
 
         }
 

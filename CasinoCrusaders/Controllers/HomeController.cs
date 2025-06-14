@@ -14,6 +14,7 @@ public class HomeController : Controller
         return View();
     }
 
+    [RolRequerido("Usuario")]
     public IActionResult IndexUsuario()
     {
         return View();
