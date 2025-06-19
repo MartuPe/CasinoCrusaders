@@ -10,6 +10,7 @@ namespace Servicio
     public interface IPersonajeServicio
     {
         Personaje ObtenerPersonaje(int? id);
+        bool ActualizarPersonaje(Personaje personaje);
     }
     public class PersonajeServicio : IPersonajeServicio
     {
@@ -21,9 +22,27 @@ namespace Servicio
             _context = crusadersContext;
         }
 
+        public bool ActualizarPersonaje(Personaje personaje)
+        {
+            var personajeExistente = _context.Personajes.FirstOrDefault(p => p.IdPersonaje == personaje.IdPersonaje);
+
+            if (personajeExistente == null)
+                return false;
+
+            personajeExistente.VidaMaxima = personaje.VidaMaxima;
+            personajeExistente.VidaActual = personaje.VidaActual;
+            personajeExistente.DañoAtaque = personaje.DañoAtaque;
+            personajeExistente.Defensa = personaje.Defensa;
+
+            _context.SaveChanges();
+            return true;
+        }
+
         public Personaje ObtenerPersonaje(int? id)
         {
             return _context.Personajes.Find(id);
         }
+
+
     }
 }

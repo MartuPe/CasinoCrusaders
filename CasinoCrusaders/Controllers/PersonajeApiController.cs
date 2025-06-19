@@ -11,7 +11,8 @@ namespace CasinoCrusaders.Controllers
     {
         private readonly IPersonajeServicio _personajeServicio;
 
-        public PersonajeApiController(IPersonajeServicio personajeServicio) { 
+        public PersonajeApiController(IPersonajeServicio personajeServicio)
+        {
             _personajeServicio = personajeServicio;
         }
 
@@ -27,5 +28,19 @@ namespace CasinoCrusaders.Controllers
 
             return Ok(personaje);
         }
+
+        [HttpPut]
+        public IActionResult ActualizarPersonaje([FromBody] Personaje datos)
+        {
+            if (datos == null)
+                return BadRequest("Datos invalidos");
+
+            bool actualizado = _personajeServicio.ActualizarPersonaje(datos);
+            if (!actualizado)
+                return NotFound("Personaje no encontrado");
+
+            return Ok("Personaje actualizado");
+        }
     }
 }
+
