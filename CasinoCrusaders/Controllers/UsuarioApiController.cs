@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CasinoCrusaders.ViewModels.DTO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Servicio;
 
@@ -38,6 +40,17 @@ namespace CasinoCrusaders.Controllers
             }
             return Ok(usuario);
 
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequestDto request)
+        {
+            var usuario = _usuarioServicio.ValidarLoginJuego(request.Gmail, request.Contraseña);
+
+            if (usuario == null)
+                return Unauthorized("Credenciales invalidas");
+
+            return Ok(usuario);
         }
     }
 }
