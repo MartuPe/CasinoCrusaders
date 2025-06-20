@@ -1,5 +1,70 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<link rel="stylesheet" href="@Url.Content("~/css/ranking.css")" />
+<partial name="_HeaderUsuario"></partial>
+<body>
+    <div class="slider-container">
+        <button class="arrow" onclick="prevCard()">&#8592;</button>
+
+        <div class="card-stack">
+            <div class="card" id="card0">
+                <img src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="Info" />
+                <div class="info-line"></div>
+                <div class="info-line"></div>
+                <div class="info-line"></div>
+            </div>
+
+            <div class="card" id="card1">
+                <img src="https://i.postimg.cc/2yGS1Gkn/enemigo-Carta.png" alt="Jugador" />
+                <h3>Jugador 1</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress1"></div>
+                </div>
+            </div>
+
+            <div class="card" id="card2">
+                <img src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="Info" />
+                <div class="info-line"></div>
+                <div class="info-line"></div>
+                <div class="info-line"></div>
+            </div>
+        </div>
+
+        <button class="arrow" onclick="nextCard()">&#8594;</button>
+    </div>
+
+    <script>
+        document.getElementById("progress1").style.width = "65%";
+
+        let current = 1;
+        const cards = [
+          document.getElementById("card0"),
+          document.getElementById("card1"),
+          document.getElementById("card2")
+        ];
+
+        function updateClasses() {
+          const len = cards.length;
+          cards.forEach((card, index) => {
+            card.className = "card";
+          });
+          const left = (current - 1 + len) % len;
+          const center = current % len;
+          const right = (current + 1) % len;
+
+          cards[left].classList.add("left-card");
+          cards[center].classList.add("center-card");
+          cards[right].classList.add("right-card");
+        }
+
+        function prevCard() {
+          current = (current - 1 + cards.length) % cards.length;
+          updateClasses();
+        }
+
+        function nextCard() {
+          current = (current + 1) % cards.length;
+          updateClasses();
+        }
+
+        updateClasses();
+    </script>
+</body>
