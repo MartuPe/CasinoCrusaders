@@ -1,4 +1,5 @@
 ﻿using CasinoCrusaders.ViewModels;
+using Entidades.EF;
 using Microsoft.AspNetCore.Mvc;
 using Servicio;
 
@@ -8,10 +9,12 @@ public class AdminController : Controller
 {
 
     IUsuarioServicio servicio;
+    IObjetoServicio objetoServicio;
 
-    public AdminController(IUsuarioServicio servicio)
+    public AdminController(IUsuarioServicio servicio, IObjetoServicio objetoServicio)
     {
         this.servicio = servicio;
+        this.objetoServicio =  objetoServicio;
     }
 
     [RolRequerido("Admin")]
@@ -118,9 +121,41 @@ public class AdminController : Controller
 
     public IActionResult GestionObjetos()
     {
-        var todosLosUsuarios = servicio.ObtenerTodosLosUsuarios();
+         var objetos = objetoServicio.ObtenerListaDeObjetos();
 
-        return View();
+        return View(objetos);
+    }
+
+    [HttpPost]
+    public IActionResult EliminarObjeto(int id)
+    {
+
+        if (id > 0)
+        {
+            objetoServicio.EliminarObjeto(id);
+            return RedirectToAction("GestionObjetos");
+        }
+
+        return RedirectToAction("GestionObjetos");
+    }
+
+    [HttpPost]
+    public IActionResult EditarObjetos(Objeto objeto)
+    {
+        
+
+        if (ModelState.IsValid)
+        {
+            var objetoViejo = objetoServicio.ObtenerObjeto(objeto.IdObjeto);
+            objetoViejo.Estadistica = objeto.Estadistica;
+            objetoViejo.Precio = objeto.Precio;
+            objetoViejo.Nombre = objeto.Nombre; 
+            objetoServicio.EditarObjeto(objetoViejo);
+            return RedirectToAction("GestionObjetos");
+        }
+
+        
+        return View("GestionObjetos");
     }
 
     public IActionResult GestionEnemigos()

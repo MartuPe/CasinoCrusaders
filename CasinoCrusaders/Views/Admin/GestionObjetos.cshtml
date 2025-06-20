@@ -1,133 +1,111 @@
-﻿@* @model Entidades.EF.Objeto;
+﻿@model List<Entidades.EF.Objeto>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="@Url.Content("~/css/AdministrarUsuarios.css")" />
 <link rel="stylesheet" href="@Url.Content("~/css/SeccionAdmin.css")" />
 
-<h2 class="mb-4 mt-4 ">Gestion Objetos</h2>
+<h2 class="mb-4 mt-4">Gestión de Objetos</h2>
 
-
-
-
-    <table class="table table-dark table-bordered">
-        <thead class="text-center">
+<table class="table table-dark table-bordered">
+    <thead class="text-center">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Estadística</th>
+            <th>Precio</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var objeto in Model)
+        {
             <tr>
-                <th>Id</th>
-                <th>Nombre </th>
-                <th>Estadistica</th>
-                <th>Precio</th>
-                <th>Eliminar</th>
-                <th>Editar</th>
+                <td>@objeto.IdObjeto</td>
+                <td>@objeto.Nombre</td>
+                <td>@objeto.Estadistica</td>
+                <td>@objeto.Precio</td>
+                <td>
+                    <button type="button" class="btn btn-warning"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editarObjetoModal"
+                            data-id="@objeto.IdObjeto"
+                            data-nombre="@objeto.Nombre"
+                            data-estadistica="@objeto.Estadistica"
+                            data-precio="@objeto.Precio">
+                        Editar
+                    </button>
+                </td>
+                <td>
+                    <form asp-action="EliminarObjeto" asp-controller="Admin" asp-route-id="@objeto.IdObjeto" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este objeto?');">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody class="text-center">
-            @foreach (var usuario in Model.Usuarios)
-            {
-                <tr>
-                    <td>@usuario.Gmail</td>
-                    <td>@usuario.NombreUsuario</td>
-                    <td>@usuario.TipoUsuario</td>
-                    <td>
-                        <button type="button" class="btn btn-warning"
-                                data-bs-toggle="modal"
-                                data-bs-target="#editarUsuarioModal"
-                                data-id="@usuario.IdUsuario"
-                                data-correo="@usuario.Gmail"
-                                data-nombre="@usuario.NombreUsuario">
-                            Editar
-                        </button>
+        }
+    </tbody>
+</table>
 
-                    </td>
-                    <td>
-                        <form asp-action="EliminarUsuario" asp-controller="Admin" asp-route-id="@usuario.IdUsuario" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-                    </td>
-                    <td>
-                        @if (usuario.TipoUsuario == "Usuario")
-                        {
-                            <form asp-controller="Admin" asp-action="HacerAdministrador" asp-route-id="@usuario.IdUsuario" method="post" class="mt-2 text-center" onsubmit="return confirm('¿Estás seguro de hacer admin este usuario?');">
-                                <button type="submit" class="btn btn-primary">Hacer administrador</button>
-                            </form>
-                        }
-                    </td>
-
-
-                </tr>
-            }
-        </tbody>
-    </table>
-
-
-
-<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal de edición de objeto -->
+<div class="modal fade" id="editarObjetoModal" tabindex="-1" aria-labelledby="editarObjetoLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Usuario</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+            <form asp-controller="Admin" asp-action="EditarObjetos" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarObjetoLabel">Editar Objeto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="IdObjeto" id="objeto-id" />
 
-                <form asp-controller="Admin" asp-action="EditarUsuario" method="post">
-                    <input type="hidden" asp-for="Usuario.IdUsuario" id="usuario-id" />
-
-                    <div class="container">
-                        <div class="row mb-3">
-                            <label asp-for="Usuario.Gmail" class="col-sm-3 col-form-label text-end"></label>
-                            <div class="col-sm-6">
-                                <input asp-for="Usuario.Gmail" class="form-control" id="usuario-correo" />
-                                <span asp-validation-for="Usuario.Gmail" class="text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label asp-for="Usuario.NombreUsuario" class="col-sm-3 col-form-label text-end"></label>
-                            <div class="col-sm-6">
-                                <input asp-for="Usuario.NombreUsuario" class="form-control" id="NombreUsuario" />
-                                <span asp-validation-for="Usuario.NombreUsuario" class="text-danger"></span>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="submit" class="btn btn-success">Guardar cambios</button>
-                        </div>
+                    <div class="mb-3">
+                        <label for="objeto-nombre" class="form-label">Nombre</label>
+                        <input type="text" name="Nombre" class="form-control" id="objeto-nombre" />
                     </div>
-                </form>
 
+                    <div class="mb-3">
+                        <label for="objeto-estadistica" class="form-label">Estadística</label>
+                        <input type="text" name="Estadistica" class="form-control" id="objeto-estadistica" />
+                    </div>
 
-            </div>
+                    <div class="mb-3">
+                        <label for="objeto-precio" class="form-label">Precio</label>
+                        <input type="number" step="0.01" name="Precio" class="form-control" id="objeto-precio" />
+                    </div>
+                </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Guardar cambios</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-
     <script>
-        const editarModal = document.getElementById('editarUsuarioModal');
+        const editarModal = document.getElementById('editarObjetoModal');
         editarModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
 
             const id = button.getAttribute('data-id');
-            const correo = button.getAttribute('data-correo');
             const nombre = button.getAttribute('data-nombre');
+            const estadistica = button.getAttribute('data-estadistica');
+            const precio = button.getAttribute('data-precio');
 
-            document.getElementById('usuario-id').value = id
-            document.getElementById('usuario-correo').value = correo;
-            document.getElementById('NombreUsuario').value = nombre;
-
+            document.getElementById('objeto-id').value = id;
+            document.getElementById('objeto-nombre').value = nombre;
+            document.getElementById('objeto-estadistica').value = estadistica;
+            document.getElementById('objeto-precio').value = precio;
         });
 
         @if (ViewBag.MostrarModal != null && (bool)ViewBag.MostrarModal)
         {
             <text>
-                        const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal'));
-                        modal.show();
+                    const modal = new bootstrap.Modal(document.getElementById('editarObjetoModal'));
+                    modal.show();
             </text>
         }
-
     </script>
-
-} *@
+}
