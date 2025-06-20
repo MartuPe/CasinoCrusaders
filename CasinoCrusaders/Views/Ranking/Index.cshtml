@@ -1,86 +1,111 @@
-﻿<link rel="stylesheet" href="@Url.Content("~/css/ranking.css")" />
+﻿@using Entidades.EF
+<link rel="stylesheet" href="@Url.Content("~/css/ranking.css")" />
 <partial name="_HeaderUsuario"></partial>
 <body>
-    <div class="slider-container">
-        <button class="arrow" onclick="prevCard()">&#8592;</button>
+	<div class="slider-container">
+		<button class="arrow" onclick="prevCard()">&#8592;</button>
 
-        <div class="card-stack">
-            <div class="card" id="card0">
-                <img src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="Info" />
-                <div class="info-line"></div>
-                <div class="info-line"></div>
-                <div class="info-line"></div>
-            </div>
+		<div class="card-stack">
+			<div class="card" id="card0">
+				@{
+					Enemigo enemigoMasFacil = ViewData["enemigoMasFacil"] as Enemigo;
+					<img src="@enemigoMasFacil.Imagen" alt="Info" />
 
-            <div class="card" id="card1">
-                <img src="~/Imagenes/Medalla.png" alt="Medalla" />
-                <h3>Jugador 1</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress1"></div>
-                </div>
-                <h3>Jugador 1</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress1"></div>
-                </div>
-                <h3>Jugador 1</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress1"></div>
-                </div>
-                <h3>Jugador 1</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress1"></div>
-                </div>
-                <h3>Jugador 1</h3>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress1"></div>
-                </div>
-            </div>
+					<h3>@enemigoMasFacil.Nombre:<br /> !Es el enemigo mas facil!</h3>
 
-            <div class="card" id="card2">
-                <img src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="Info" />
-                <div class="info-line"></div>
-                <div class="info-line"></div>
-                <div class="info-line"></div>
-            </div>
-        </div>
+					<h5 style="margin-top: 30px;">Vida: @enemigoMasFacil.Vida</h5>
+					<div class="progress-bar">
+						<div class="progress-fill" id="progress1"></div>
+					</div>
 
-        <button class="arrow" onclick="nextCard()">&#8594;</button>
-    </div>
+					<h5>Ataque: @enemigoMasFacil.Ataque</h5>
+					<div class="progress-bar">
+						<div class="progress-fill" id="progress1"></div>
+					</div>
 
-    <script>
-        document.getElementById("progress1").style.width = "65%";
+					<h5>Defensa: @enemigoMasFacil.Defensa</h5>
+					<div class="progress-bar">
+						<div class="progress-fill" id="progress1"></div>
+					</div>
+				}
+			</div>
 
-        let current = 1;
-        const cards = [
-          document.getElementById("card0"),
-          document.getElementById("card1"),
-          document.getElementById("card2")
-        ];
+			<div class="card" id="card1">
+				<img src="~/Imagenes/Medalla.png" alt="Medalla" />
+				@{
+					int posicionJugador = 1;
+				}
+				@foreach (var usuario in ViewData["usuariosConMayorProgreso"] as List<Usuario>)
+				{
+					<h3>Puesto @posicionJugador: @usuario.NombreUsuario</h3>
+					<div class="progress-bar">
+						<div class="progress-fill" id="progress1"></div>
+					</div>
+					posicionJugador++;
+				}
+			</div>
 
-        function updateClasses() {
-          const len = cards.length;
-          cards.forEach((card, index) => {
-            card.className = "card";
-          });
-          const left = (current - 1 + len) % len;
-          const center = current % len;
-          const right = (current + 1) % len;
+			<div class="card" id="card2">
+				@{
+					Enemigo enemigoMasDificil = ViewData["enemigoMasDificil"] as Enemigo;
 
-          cards[left].classList.add("left-card");
-          cards[center].classList.add("center-card");
-          cards[right].classList.add("right-card");
-        }
+					<img src="@enemigoMasDificil.Imagen" alt="Info" />
+					<h3>@enemigoMasDificil.Nombre:<br /> !Es el enemigo mas dificil!</h3>
 
-        function prevCard() {
-          current = (current - 1 + cards.length) % cards.length;
-          updateClasses();
-        }
+					<h5 style="margin-top: 30px;">Vida: @enemigoMasDificil.Vida</h5>
+					<div class="progress-bar">
+						<div class="progress-fill" id="progress1"></div>
+					</div>
 
-        function nextCard() {
-          current = (current + 1) % cards.length;
-          updateClasses();
-        }
+					<h5>Ataque: @enemigoMasDificil.Ataque</h5>
+					<div class="progress-bar">
+						<div class="progress-fill" id="progress1"></div>
+					</div>
 
-        updateClasses();
-    </script>
+					<h5>Defensa: @enemigoMasDificil.Defensa</h5>
+					<div class="progress-bar">
+						<div class="progress-fill" id="progress1"></div>
+					</div>
+				}
+			</div>
+		</div>
+
+		<button class="arrow" onclick="nextCard()">&#8594;</button>
+	</div>
+
+	<script>
+
+			let current = 1;
+			const cards = [
+		document.getElementById("card0"),
+		document.getElementById("card1"),
+		document.getElementById("card2")
+			];
+
+			function updateClasses() {
+		const len = cards.length;
+		cards.forEach((card, index) => {
+				card.className = "card";
+		});
+		const left = (current - 1 + len) % len;
+		const center = current % len;
+		const right = (current + 1) % len;
+
+		cards[left].classList.add("left-card");
+		cards[center].classList.add("center-card");
+		cards[right].classList.add("right-card");
+			}
+
+			function prevCard() {
+		current = (current - 1 + cards.length) % cards.length;
+		updateClasses();
+			}
+
+			function nextCard() {
+		current = (current + 1) % cards.length;
+		updateClasses();
+			}
+
+			updateClasses();
+	</script>
 </body>
