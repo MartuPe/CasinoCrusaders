@@ -197,6 +197,12 @@ namespace CasinoCrusaders.Controllers
             return RedirectToAction("AdministrarUsuarios");
         }
 
+        [HttpGet]
+        public IActionResult MostrarRanking()
+        {
+            return View();
+        }
+
 
     }
 }
