@@ -9,6 +9,7 @@ builder.Services.AddScoped<CasinoCrusadersContext>();
 builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
 builder.Services.AddScoped<IEnemigoServicio, EnemigoServicio>();
 builder.Services.AddScoped<IPersonajeServicio, PersonajeServicio>();
+builder.Services.AddScoped<IObjetoServicio, ObjetoServicio>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
