@@ -1,0 +1,153 @@
+﻿@model CasinoCrusaders.ViewModels.UsuariosViewModel;
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="@Url.Content("~/css/AdministrarUsuarios.css")" />
+<link rel="stylesheet" href="@Url.Content("~/css/SeccionAdmin.css")" />
+
+<h2 class="mb-4 mt-4 ">Listado de Usuarios</h2>
+
+<form method="get" asp-action="AdministrarUsuarios" asp-controller="Usuario" class="mb-3 d-flex gap-2">
+    <input type="text" name="busqueda" value="@Context.Request.Query["busqueda"]" class="form-control" placeholder="Buscar por correo o nombre..." />
+    <button type="submit" class="btn btn-outline-light">Buscar</button>
+</form>
+
+
+
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-warning">@ViewBag.Mensaje</div>
+}
+
+@if (ViewBag.MensajeError != null)
+{
+    <div class="alert alert-danger">@ViewBag.MensajeError</div>
+}
+
+
+
+
+@if (Model.Usuarios.Count > 0)
+{
+
+    <table class="table table-dark table-bordered">
+        <thead class="text-center">
+            <tr>
+                <th>correo</th>
+                <th>nombre de usuario</th>
+                <th>tipo de usuario</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+                <th>Admin</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            @foreach (var usuario in Model.Usuarios)
+            {
+                <tr>
+                    <td>@usuario.Gmail</td>
+                    <td>@usuario.NombreUsuario</td>
+                    <td>@usuario.TipoUsuario</td>
+                    <td>
+                        <button type="button" class="btn btn-warning"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editarUsuarioModal"
+                        data-id="@usuario.IdUsuario"
+                        data-correo="@usuario.Gmail"
+                        data-nombre="@usuario.NombreUsuario">
+                            Editar
+                        </button>
+
+                    </td>
+                    <td>
+                        <form asp-action="EliminarUsuario" asp-controller="Admin" asp-route-id="@usuario.IdUsuario" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                    <td>
+                        @if (usuario.TipoUsuario == "Usuario")
+                        {
+                            <form asp-controller="Admin" asp-action="HacerAdministrador" asp-route-id="@usuario.IdUsuario" method="post" class="mt-2 text-center" onsubmit="return confirm('¿Estás seguro de hacer admin este usuario?');">
+                                <button type="submit" class="btn btn-primary">Hacer administrador</button>
+                            </form>
+                        }
+                    </td>
+                    
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form asp-controller="Admin" asp-action="EditarUsuario" method="post">
+                    <input type="hidden" asp-for="Usuario.IdUsuario" id="usuario-id" />
+
+                    <div class="container">
+                        <div class="row mb-3">
+                            <label asp-for="Usuario.Gmail" class="col-sm-3 col-form-label text-end"></label>
+                            <div class="col-sm-6">
+                                <input asp-for="Usuario.Gmail" class="form-control" id="usuario-correo" />
+                                <span asp-validation-for="Usuario.Gmail" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label asp-for="Usuario.NombreUsuario" class="col-sm-3 col-form-label text-end"></label>
+                            <div class="col-sm-6">
+                                <input asp-for="Usuario.NombreUsuario" class="form-control" id="NombreUsuario" />
+                                <span asp-validation-for="Usuario.NombreUsuario" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-success">Guardar cambios</button>
+                        </div>
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        const editarModal = document.getElementById('editarUsuarioModal');
+        editarModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+
+            const id = button.getAttribute('data-id');
+            const correo = button.getAttribute('data-correo');
+            const nombre = button.getAttribute('data-nombre');
+
+            document.getElementById('usuario-id').value = id
+            document.getElementById('usuario-correo').value = correo;
+            document.getElementById('NombreUsuario').value = nombre;
+
+        });
+
+        @if (ViewBag.MostrarModal != null && (bool)ViewBag.MostrarModal)
+        {
+            <text>
+                    const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal'));
+                    modal.show();
+            </text>
+        }
+
+    </script>
+
+}

@@ -1,42 +1,23 @@
-﻿@model CasinoCrusaders.ViewModels.UsuariosViewModel;
+﻿@* @model Entidades.EF.Objeto;
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="@Url.Content("~/css/AdministrarUsuarios.css")" />
+<link rel="stylesheet" href="@Url.Content("~/css/SeccionAdmin.css")" />
 
-<h2 class="mb-4 mt-4 ">Listado de Usuarios</h2>
-
-<form method="get" asp-action="AdministrarUsuarios" asp-controller="Usuario" class="mb-3 d-flex gap-2">
-    <input type="text" name="busqueda" value="@Context.Request.Query["busqueda"]" class="form-control" placeholder="Buscar por correo o nombre..." />
-    <button type="submit" class="btn btn-outline-light">Buscar</button>
-</form>
+<h2 class="mb-4 mt-4 ">Gestion Objetos</h2>
 
 
 
-@if (ViewBag.Mensaje != null)
-{
-    <div class="alert alert-warning">@ViewBag.Mensaje</div>
-}
-
-@if (ViewBag.MensajeError != null)
-{
-    <div class="alert alert-danger">@ViewBag.MensajeError</div>
-}
-
-
-
-
-@if (Model.Usuarios.Count > 0)
-{
 
     <table class="table table-dark table-bordered">
         <thead class="text-center">
             <tr>
-                <th>correo</th>
-                <th>nombre de usuario</th>
-                <th>tipo de usuario</th>
-                <th>Editar</th>
+                <th>Id</th>
+                <th>Nombre </th>
+                <th>Estadistica</th>
+                <th>Precio</th>
                 <th>Eliminar</th>
-                <th>Admin</th>
+                <th>Editar</th>
             </tr>
         </thead>
         <tbody class="text-center">
@@ -48,35 +29,35 @@
                     <td>@usuario.TipoUsuario</td>
                     <td>
                         <button type="button" class="btn btn-warning"
-                        data-bs-toggle="modal"
-                        data-bs-target="#editarUsuarioModal"
-                        data-id="@usuario.IdUsuario"
-                        data-correo="@usuario.Gmail"
-                        data-nombre="@usuario.NombreUsuario">
+                                data-bs-toggle="modal"
+                                data-bs-target="#editarUsuarioModal"
+                                data-id="@usuario.IdUsuario"
+                                data-correo="@usuario.Gmail"
+                                data-nombre="@usuario.NombreUsuario">
                             Editar
                         </button>
 
                     </td>
                     <td>
-                        <form asp-action="EliminarUsuario" asp-controller="Usuario" asp-route-id="@usuario.IdUsuario" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                        <form asp-action="EliminarUsuario" asp-controller="Admin" asp-route-id="@usuario.IdUsuario" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
                             <button type="submit" class="btn btn-danger">Eliminar</button>
                         </form>
                     </td>
                     <td>
                         @if (usuario.TipoUsuario == "Usuario")
                         {
-                            <form asp-controller="Usuario" asp-action="HacerAdministrador" asp-route-id="@usuario.IdUsuario" method="post" class="mt-2 text-center" onsubmit="return confirm('¿Estás seguro de hacer admin este usuario?');">
+                            <form asp-controller="Admin" asp-action="HacerAdministrador" asp-route-id="@usuario.IdUsuario" method="post" class="mt-2 text-center" onsubmit="return confirm('¿Estás seguro de hacer admin este usuario?');">
                                 <button type="submit" class="btn btn-primary">Hacer administrador</button>
                             </form>
                         }
                     </td>
-                    
-                   
+
+
                 </tr>
             }
         </tbody>
     </table>
-}
+
 
 
 <div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -88,7 +69,7 @@
             </div>
             <div class="modal-body">
 
-                <form asp-controller="Usuario" asp-action="EditarUsuario" method="post">
+                <form asp-controller="Admin" asp-action="EditarUsuario" method="post">
                     <input type="hidden" asp-for="Usuario.IdUsuario" id="usuario-id" />
 
                     <div class="container">
@@ -142,11 +123,11 @@
         @if (ViewBag.MostrarModal != null && (bool)ViewBag.MostrarModal)
         {
             <text>
-                    const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal'));
-                    modal.show();
+                        const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal'));
+                        modal.show();
             </text>
         }
 
     </script>
 
-}
+} *@

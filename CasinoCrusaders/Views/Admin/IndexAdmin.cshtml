@@ -1,0 +1,37 @@
+﻿<link rel="stylesheet" href="@Url.Content("~/css/IndexAdmin.css")" />
+@Html.Partial("_HeaderUsuario")
+@{
+    ViewData["Title"] = "Admin Index";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="~/css/admin.css" />
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>🎮 Admin Index</h1>
+        <div class="card-grid">
+            <a class="card" asp-controller="Admin" asp-action="GestionUsuarios">
+                <div class="icon">👤</div>
+                <div class="label">Modificar Usuario</div>
+            </a>
+            <a class="card" asp-controller="Admin" asp-action="GestionEnemigos">
+                <div class="icon">💀</div>
+                <div class="label">Modificar Enemigo</div>
+            </a>
+            <a class="card" asp-controller="Admin" asp-action="GestionObjetos">
+                <div class="icon">📦</div>
+                <div class="label">Modificar Objetos</div>
+            </a>
+            <a class="card" asp-controller="Admin" asp-action="GestionUsuarios">
+                <div class="icon">📅</div>
+                <div class="label">Modificar Eventos</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

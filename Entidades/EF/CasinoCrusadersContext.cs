@@ -19,6 +19,8 @@ public partial class CasinoCrusadersContext : DbContext
 
     public virtual DbSet<Nivel> Nivels { get; set; }
 
+    public virtual DbSet<Objeto> Objetos { get; set; }
+
     public virtual DbSet<Personaje> Personajes { get; set; }
 
     public virtual DbSet<Progreso> Progresos { get; set; }
@@ -29,29 +31,25 @@ public partial class CasinoCrusadersContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-BDT1HJL\\SQLEXPRESS;Database=CasinoCrusaders;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-JHC0DJ4\\SQLEXPRESS;Database=CasinoCrusaders;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Enemigo>(entity =>
         {
-            entity.HasKey(e => e.IdEnemigo).HasName("PK__Enemigo__C4BAE8D6772AD085");
+            entity.HasKey(e => e.IdEnemigo).HasName("PK__Enemigo__C4BAE8D69160D38A");
 
             entity.ToTable("Enemigo");
 
             entity.Property(e => e.IdEnemigo).HasColumnName("Id_enemigo");
-            entity.Property(e => e.Descripcion)
-                .HasMaxLength(200)
-                .IsFixedLength();
-            entity.Property(e => e.Imagen)
-                .HasMaxLength(200)
-                .IsFixedLength();
+            entity.Property(e => e.Descripcion).HasMaxLength(200);
+            entity.Property(e => e.Imagen).HasMaxLength(200);
             entity.Property(e => e.Nombre).HasColumnType("text");
         });
 
         modelBuilder.Entity<Nivel>(entity =>
         {
-            entity.HasKey(e => e.IdNivel).HasName("PK__Nivel__B6104B51C4233869");
+            entity.HasKey(e => e.IdNivel).HasName("PK__Nivel__B6104B513E83FBB7");
 
             entity.ToTable("Nivel");
 
@@ -70,9 +68,18 @@ public partial class CasinoCrusadersContext : DbContext
                 .HasConstraintName("FK__Nivel__Id_tipo_c__4316F928");
         });
 
+        modelBuilder.Entity<Objeto>(entity =>
+        {
+            entity.HasKey(e => e.IdObjeto);
+
+            entity.ToTable("Objeto");
+
+            entity.Property(e => e.Nombre).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<Personaje>(entity =>
         {
-            entity.HasKey(e => e.IdPersonaje).HasName("PK__Personaj__C35CFB2A3E5B3AD7");
+            entity.HasKey(e => e.IdPersonaje).HasName("PK__Personaj__C35CFB2A181103D7");
 
             entity.ToTable("Personaje");
 
@@ -84,7 +91,7 @@ public partial class CasinoCrusadersContext : DbContext
 
         modelBuilder.Entity<Progreso>(entity =>
         {
-            entity.HasKey(e => e.IdProgreso).HasName("PK__Progreso__AB4A06E75ECA0BD5");
+            entity.HasKey(e => e.IdProgreso).HasName("PK__Progreso__AB4A06E7656F0B21");
 
             entity.ToTable("Progreso");
 
@@ -108,7 +115,7 @@ public partial class CasinoCrusadersContext : DbContext
 
         modelBuilder.Entity<TipoCasillero>(entity =>
         {
-            entity.HasKey(e => e.IdTipoCasillero).HasName("PK__Tipo_cas__478724B36E4213CD");
+            entity.HasKey(e => e.IdTipoCasillero).HasName("PK__Tipo_cas__478724B34F1F495B");
 
             entity.ToTable("Tipo_casillero");
 
