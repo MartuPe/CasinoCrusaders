@@ -24,6 +24,9 @@ public interface IUsuarioServicio
     Usuario? ValidarLogin(string nombreUsuario, string contraseña);
     bool ValidarSiGmailExiste(string? email);
 
+    Usuario? ValidarLoginJuego(string gmail, string contraseña);
+
+
     bool ExisteOtroUsuarioConEseEmail(int idUsuarioActual, string email);
 
 }
@@ -62,8 +65,20 @@ public class UsuarioServicio : IUsuarioServicio
 
         if (usuario == null)
             return null;
-      
+
         var resultado = _passwordHasher.VerifyHashedPassword(nombreUsuario, usuario.Contraseña, contraseña);
+
+        return resultado == PasswordVerificationResult.Success ? usuario : null;
+    }
+
+    public Usuario? ValidarLoginJuego(string gmail, string contraseña)
+    {
+        var usuario = _context.Usuarios.FirstOrDefault(u => u.Gmail == gmail);
+
+        if (usuario == null)
+            return null;
+
+        var resultado = _passwordHasher.VerifyHashedPassword(gmail, usuario.Contraseña, contraseña);
 
         return resultado == PasswordVerificationResult.Success ? usuario : null;
     }
