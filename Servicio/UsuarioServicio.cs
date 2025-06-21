@@ -90,7 +90,7 @@ public class UsuarioServicio : IUsuarioServicio
             {
                 VidaMaxima = 100,
                 VidaActual = 100,
-                DañoAtaque = 10,
+                DanoAtaque = 10,
                 Defensa = 10,
                 Monedas = 10,
             };

@@ -31,7 +31,7 @@ namespace Servicio
 
             personajeExistente.VidaMaxima = personaje.VidaMaxima;
             personajeExistente.VidaActual = personaje.VidaActual;
-            personajeExistente.DañoAtaque = personaje.DañoAtaque;
+            personajeExistente.DanoAtaque = personaje.DanoAtaque;
             personajeExistente.Defensa = personaje.Defensa;
             personajeExistente.Monedas = personaje.Monedas;
 

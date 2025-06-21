@@ -11,7 +11,7 @@ public partial class Personaje
 
     public int? VidaActual { get; set; }
 
-    public int? DañoAtaque { get; set; }
+    public int? DanoAtaque { get; set; }
 
     public int? Defensa { get; set; }
 

@@ -90,7 +90,7 @@ public partial class CasinoCrusadersContext : DbContext
             entity.ToTable("Personaje");
 
             entity.Property(e => e.IdPersonaje).HasColumnName("Id_personaje");
-            entity.Property(e => e.DañoAtaque).HasColumnName("Daño_ataque");
+            entity.Property(e => e.DanoAtaque).HasColumnName("Dano_ataque");
             entity.Property(e => e.VidaActual).HasColumnName("Vida_actual");
             entity.Property(e => e.VidaMaxima).HasColumnName("Vida_maxima");
         });
