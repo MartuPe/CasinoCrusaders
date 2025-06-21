@@ -1,8 +1,10 @@
-﻿<link rel="stylesheet" href="@Url.Content("~/css/IndexAdmin.css")" />
-@Html.Partial("_HeaderUsuario")
-@{
-    ViewData["Title"] = "Admin Index";
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = " | Home administrador";
 }
+
+<link rel="stylesheet" href="@Url.Content("~/css/IndexAdmin.css")" />
+<partial name="_HeaderAdmin"></partial>
 
 <!DOCTYPE html>
 <html lang="en">
