@@ -1,0 +1,38 @@
+﻿.feature {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 60px;
+    justify-content: center;
+    gap: 20px;
+}
+
+    .feature.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .feature img.hover-img {
+        width: 300px;
+        border-radius: 12px;
+        transition: transform 0.3s ease;
+    }
+
+        .feature img.hover-img:hover {
+            transform: scale(1.05);
+        }
+
+.feature-text {
+    max-width: 500px;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .feature {
+        flex-direction: column !important;
+        text-align: center;
+    }
+
+    .feature-text {
+        text-align: center;
+    }
+}
