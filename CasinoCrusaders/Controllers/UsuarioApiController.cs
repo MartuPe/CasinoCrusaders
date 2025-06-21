@@ -1,6 +1,5 @@
 ﻿using CasinoCrusaders.ViewModels.DTO;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
+using Entidades.EF;
 using Microsoft.AspNetCore.Mvc;
 using Servicio;
 
@@ -27,7 +26,10 @@ namespace CasinoCrusaders.Controllers
             {
                 return NotFound("No se encontro ningun usuario");
             }
-            return Ok(usuario);
+
+            UsuarioDto usuarioDto = convertirUsuarioAUsuarioDto(usuario);
+
+            return Ok(usuarioDto);
 
         }
         [HttpGet("ObtenerPorId")]
@@ -38,7 +40,12 @@ namespace CasinoCrusaders.Controllers
             {
                 return NotFound($"No se encontro ningun usuario con id {id} ");
             }
-            return Ok(usuario);
+
+
+            UsuarioDto usuarioDto = convertirUsuarioAUsuarioDto(usuario);
+
+
+            return Ok(usuarioDto);
 
         }
 
@@ -50,7 +57,22 @@ namespace CasinoCrusaders.Controllers
             if (usuario == null)
                 return Unauthorized("Credenciales invalidas");
 
-            return Ok(usuario);
+
+            UsuarioDto usuarioDto = convertirUsuarioAUsuarioDto(usuario);
+          
+
+            return Ok(usuarioDto);
+        }
+
+        private UsuarioDto convertirUsuarioAUsuarioDto(Usuario usuario) {
+            UsuarioDto usuarioDto = new UsuarioDto();
+            usuarioDto.IdUsuario = usuario.IdUsuario;
+            usuarioDto.Gmail = usuario.Gmail;
+            usuarioDto.NombreUsuario = usuario.NombreUsuario;
+            usuarioDto.TipoUsuario = usuario.TipoUsuario;
+            usuarioDto.IdPersonaje = usuario.IdPersonaje;
+
+            return usuarioDto;
         }
     }
 }
