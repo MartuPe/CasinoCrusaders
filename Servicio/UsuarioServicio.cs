@@ -2,6 +2,7 @@
 using Entidades.EF;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 using Org.BouncyCastle.Crypto.Macs;
 using System.Net.Mail;
@@ -80,8 +81,31 @@ public class UsuarioServicio : IUsuarioServicio
 
         var resultado = _passwordHasher.VerifyHashedPassword(gmail, usuario.Contraseña, contraseña);
 
-        return resultado == PasswordVerificationResult.Success ? usuario : null;
+        if (resultado != PasswordVerificationResult.Success)
+            return null;
+
+        if (usuario.IdPersonaje == null)
+        {
+            var nuevoPersonaje = new Personaje
+            {
+                VidaMaxima = 100,
+                VidaActual = 100,
+                DañoAtaque = 10,
+                Defensa = 10,
+                Monedas = 10,
+            };
+
+            _context.Personajes.Add(nuevoPersonaje);
+            _context.SaveChanges(); 
+
+            usuario.IdPersonaje = nuevoPersonaje.IdPersonaje;
+            _context.Usuarios.Update(usuario);
+            _context.SaveChanges(); 
+        }
+
+        return usuario;
     }
+
 
     public bool ValidarSiGmailExiste(string? email)
     {
