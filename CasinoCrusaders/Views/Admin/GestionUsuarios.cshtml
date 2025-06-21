@@ -6,7 +6,7 @@
 
 <h2 class="mb-4 mt-4 ">Listado de Usuarios</h2>
 
-<form method="get" asp-action="AdministrarUsuarios" asp-controller="Usuario" class="mb-3 d-flex gap-2">
+<form method="get" asp-action="GestionUsuarios" asp-controller="Admin" class="mb-3 d-flex gap-2">
     <input type="text" name="busqueda" value="@Context.Request.Query["busqueda"]" class="form-control" placeholder="Buscar por correo o nombre..." />
     <button type="submit" class="btn btn-outline-light">Buscar</button>
 </form>

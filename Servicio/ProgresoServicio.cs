@@ -1,10 +1,11 @@
-﻿using Entidades.EF;
+using Entidades.EF;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Servicio;
 
@@ -15,6 +16,10 @@ public interface IProgresoServicio
     Enemigo ObtenerEnemigoMasDificil();
 
     Enemigo ObtenerEnemigoMasFacil();
+
+    Progreso ObtenerProgreso(int id);
+  
+    void ActualizarProgreso(int id,int nivel,DateTime fecha);
 
 }
 public class ProgresoServicio : IProgresoServicio
@@ -57,6 +62,34 @@ public class ProgresoServicio : IProgresoServicio
             .FirstOrDefault();
         return enemigoMasFacil;
     }
+
+   public void ActualizarProgreso(int id, int nivel, DateTime fecha)
+   {
+       var progreso = ObtenerProgreso(id);
+
+         if (progreso != null)
+         {
+             progreso.FechaCreacion = fecha;
+             progreso.IdNivel = nivel;
+             _context.SaveChanges();
+         }
+
+   }
+
+
+
+   public Progreso ObtenerProgreso(int id)
+   {
+       var personaje = _context.Personajes.Find(id);
+       if(personaje != null)
+       {
+          return _context.Progresos.Where(p => p.IdPersonaje == id).First();
+       }
+
+       return null;
+
+
+   }
 
     //public Usuario ObtenerUsuarioGanador()
     //{
@@ -103,4 +136,5 @@ public class ProgresoServicio : IProgresoServicio
     //{
     //    return _context.Nivels.Count();
     //}
+
 }
