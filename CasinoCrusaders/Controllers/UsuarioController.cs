@@ -43,7 +43,6 @@ namespace CasinoCrusaders.Controllers
             Usuario usuarioValidado = null;
 
             usuarioValidado = servicio.ValidarLogin(usuario.NombreUsuario, usuario.Contraseña);
-            HttpContext.Session.SetString("Rol", usuarioValidado.TipoUsuario);
 
 
             if (usuarioValidado == null)
@@ -59,6 +58,7 @@ namespace CasinoCrusaders.Controllers
             }
 
 
+            HttpContext.Session.SetString("Rol", usuarioValidado.TipoUsuario);
             HttpContext.Session.SetInt32("Id", usuarioValidado.IdUsuario);
             HttpContext.Session.SetString("Nombre", usuarioValidado.NombreUsuario);
 
