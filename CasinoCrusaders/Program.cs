@@ -10,6 +10,8 @@ builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
 builder.Services.AddScoped<IEnemigoServicio, EnemigoServicio>();
 builder.Services.AddScoped<IPersonajeServicio, PersonajeServicio>();
 builder.Services.AddScoped<IObjetoServicio, ObjetoServicio>();
+builder.Services.AddScoped<IProgresoServicio, ProgresoServicio>();
+builder.Services.AddScoped<INivelSerivicio, NivelServicio>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
