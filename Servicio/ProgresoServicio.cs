@@ -19,7 +19,7 @@ public interface IProgresoServicio
 
     Progreso ObtenerProgreso(int id);
   
-    void ActualizarProgreso(int id,int nivel,DateTime fecha);
+    void ActualizarProgreso(int id,int nivel);
 
 }
 public class ProgresoServicio : IProgresoServicio
@@ -63,13 +63,13 @@ public class ProgresoServicio : IProgresoServicio
         return enemigoMasFacil;
     }
 
-   public void ActualizarProgreso(int id, int nivel, DateTime fecha)
+   public void ActualizarProgreso(int id, int nivel)
    {
        var progreso = ObtenerProgreso(id);
 
          if (progreso != null)
          {
-             progreso.FechaCreacion = fecha;
+            progreso.FechaCreacion = DateTime.Now;
              progreso.IdNivel = nivel;
              _context.SaveChanges();
          }
