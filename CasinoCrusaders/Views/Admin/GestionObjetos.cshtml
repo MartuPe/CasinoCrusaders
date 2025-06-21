@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = " | Gestion objetos";
+}
+<partial name="_HeaderAdmin"></partial>
+
+@model List<Entidades.EF.Objeto>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="@Url.Content("~/css/AdministrarUsuarios.css")" />
+<link rel="stylesheet" href="@Url.Content("~/css/SeccionAdmin.css")" />
+
+<h2 class="mb-4 mt-4">Gestión de Objetos</h2>
+
+<table class="table table-dark table-bordered">
+    <thead class="text-center">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Estadística</th>
+            <th>Precio</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @foreach (var objeto in Model)
+        {
+            <tr>
+                <td>@objeto.IdObjeto</td>
+                <td>@objeto.Nombre</td>
+                <td>@objeto.Estadistica</td>
+                <td>@objeto.Precio</td>
+                <td>
+                    <button type="button" class="btn btn-warning"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editarObjetoModal"
+                            data-id="@objeto.IdObjeto"
+                            data-nombre="@objeto.Nombre"
+                            data-estadistica="@objeto.Estadistica"
+                            data-precio="@objeto.Precio">
+                        Editar
+                    </button>
+                </td>
+                <td>
+                    <form asp-action="EliminarObjeto" asp-controller="Admin" asp-route-id="@objeto.IdObjeto" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este objeto?');">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal de edición de objeto -->
+<div class="modal fade" id="editarObjetoModal" tabindex="-1" aria-labelledby="editarObjetoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-controller="Admin" asp-action="EditarObjetos" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editarObjetoLabel">Editar Objeto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="IdObjeto" id="objeto-id" />
+
+                    <div class="mb-3">
+                        <label for="objeto-nombre" class="form-label">Nombre</label>
+                        <input type="text" name="Nombre" class="form-control" id="objeto-nombre" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="objeto-estadistica" class="form-label">Estadística</label>
+                        <input type="text" name="Estadistica" class="form-control" id="objeto-estadistica" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="objeto-precio" class="form-label">Precio</label>
+                        <input type="number" step="0.01" name="Precio" class="form-control" id="objeto-precio" />
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-success">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const editarModal = document.getElementById('editarObjetoModal');
+        editarModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+
+            const id = button.getAttribute('data-id');
+            const nombre = button.getAttribute('data-nombre');
+            const estadistica = button.getAttribute('data-estadistica');
+            const precio = button.getAttribute('data-precio');
+
+            document.getElementById('objeto-id').value = id;
+            document.getElementById('objeto-nombre').value = nombre;
+            document.getElementById('objeto-estadistica').value = estadistica;
+            document.getElementById('objeto-precio').value = precio;
+        });
+
+        @if (ViewBag.MostrarModal != null && (bool)ViewBag.MostrarModal)
+        {
+            <text>
+                    const modal = new bootstrap.Modal(document.getElementById('editarObjetoModal'));
+                    modal.show();
+            </text>
+        }
+    </script>
+}

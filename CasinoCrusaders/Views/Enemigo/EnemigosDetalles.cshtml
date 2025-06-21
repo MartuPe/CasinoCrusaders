@@ -1,0 +1,131 @@
+﻿@model Entidades.EF.Enemigo;
+
+<link rel="stylesheet" href="@Url.Content("~/css/EnemigosDetalles.css")" />
+
+@Html.Partial("_HeaderUsuario")
+
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger">@TempData["MensajeError"]</div>
+}
+
+
+<section class="enemigoDetalle mt-5">
+
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Model.Imagen" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8 d-flex justify-content-center align-items-center">
+                <div class="card-body">
+                    <h1 class="mb-3">@Model.Nombre</h1>
+                    <h3 class="card-text mb-3">@Model.Descripcion</h3>
+                    <div class="estadisticas mb-4">
+                        <h2>Estadisticas</h2>
+                        <h4 class="stat">VIDA: @Model.Vida</h4>
+                        <h4 class="stat">ATAQUE: @Model.Ataque</h4>
+                        <h4 class="stat">DEFENSA: @Model.Defensa</h4>
+                    </div>
+                    @if (ViewBag.Rol == "Admin")
+                    {
+                        <div class="d-flex gap-4 administrar">
+                            <button type="button" class="btn btn-warning"
+                            data-bs-toggle="modal"
+                            data-bs-target="#editarEnemigoModal">
+                                Editar
+                            </button>
+                            <form asp-action="EliminarEnemigo" asp-controller="Enemigo" asp-route-id="@Model.IdEnemigo" method="post" onsubmit="return confirm('¿Estás seguro de eliminar este enemigo?');">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@if (ViewBag.Rol == "Admin")
+{
+    <div class="modal fade" id="editarEnemigoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Enemigo</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <form asp-controller="Enemigo" asp-action="EditarEnemigo" method="post">
+                        <input type="hidden" asp-for="@Model.IdEnemigo" id="enemigo-id" name="IdEnemigo" />
+
+                        <div class="container">
+                            <div class="row mb-3">
+                                <label for="enemigo-nombre" class="col-sm-3 col-form-label text-end">Nombre</label>
+                                <div class="col-sm-6">
+                                    <input type="text" asp-for="@Model.Nombre" id="enemigo-nombre" name="Nombre" class="form-control" />
+                                    <span asp-validation-for="@Model.Nombre" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="enemigo-nombre" class="col-sm-3 col-form-label text-end">Descripcion</label>
+                                <div class="col-sm-6">
+                                    <input type="text" asp-for="@Model.Descripcion" id="enemigo-descripcion" name="Descripcion" class="form-control" />
+                                    <span asp-validation-for="@Model.Descripcion" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="enemigo-nombre" class="col-sm-3 col-form-label text-end">ImagenUrl</label>
+                                <div class="col-sm-6">
+                                    <input type="text" asp-for="@Model.Imagen" id="enemigo-imagen" name="Imagen" class="form-control" />
+                                    <span asp-validation-for="@Model.Imagen" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="enemigo-vida" class="col-sm-3 col-form-label text-end">Vida</label>
+                                <div class="col-sm-6">
+                                    <input type="number" asp-for="@Model.Vida" id="enemigo-vida" name="Vida" class="form-control" />
+                                    <span asp-validation-for="@Model.Vida" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="enemigo-ataque" class="col-sm-3 col-form-label text-end">Ataque</label>
+                                <div class="col-sm-6">
+                                    <input type="number" asp-for="@Model.Ataque" id="enemigo-ataque" name="Ataque" class="form-control" />
+                                    <span asp-validation-for="@Model.Ataque" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="enemigo-defensa" class="col-sm-3 col-form-label text-end">Defensa</label>
+                                <div class="col-sm-6">
+                                    <input type="number" asp-for="@Model.Defensa" id="enemigo-defensa" name="Defensa" class="form-control" />
+                                    <span asp-validation-for="@Model.Defensa" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="submit" class="btn btn-success">Guardar cambios</button>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+}
+
+
+

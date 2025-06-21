@@ -1,0 +1,191 @@
+﻿header {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    background-color: rgba(6, 2, 27, 0.85);
+    position: relative;
+    z-index: 10;
+    padding: 1rem;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.logo img {
+    height: 40px;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+.menu-icon {
+    display: none;
+    font-size: 1.8rem;
+    color: white;
+    cursor: pointer;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.username {
+    color: white;
+    font-weight: 500;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #f0c040;
+    object-fit: cover;
+}
+
+.nav-list {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .nav-list li a {
+        color: #cbd5e1;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+        .nav-list li a:hover {
+            color: #38bdf8;
+        }
+
+/*********** LOGOUT ***********/
+.logout-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.modalCerrar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 15, 30, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+    .modalCerrar.hidden {
+        display: none;
+    }
+
+.modal-content-logout {
+    background-color: #0f0f1e;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 10px #000;
+    color: white;
+    max-width: 300px;
+    width: 90%;
+}
+
+.modal-buttons-logout {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.cancel-btn,
+.logout-btn {
+    background-color: #1f2937;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+    .cancel-btn:hover {
+        background-color: #374151;
+    }
+
+.logout-btn {
+    background-color: #ef4444;
+}
+
+    .logout-btn:hover {
+        background-color: #dc2626;
+    }
+
+
+@media (max-width: 990px) {
+    .navbar {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: center;
+        position: relative;
+    }
+
+    .logo {
+        grid-column: 1;
+    }
+
+    .user-info {
+        justify-self: center;
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .menu-icon {
+        display: block;
+        justify-self: end;
+        grid-column: 3;
+    }
+
+    .nav-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        display: none;
+        flex-direction: column;
+        background-color: rgba(6, 2, 27, 0.95);
+        z-index: 9;
+        opacity: 0.95;
+    }
+
+        .nav-list li {
+            border-top: 1px solid #444;
+            padding: 1rem;
+            text-align: center;
+        }
+
+            .nav-list li a {
+                text-align: center;
+                padding: 1rem;
+            }
+
+    #menu-toggle:checked + .menu-icon + .nav-list {
+        display: flex;
+    }
+}

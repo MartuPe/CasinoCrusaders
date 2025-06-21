@@ -1,0 +1,56 @@
+﻿<link rel="stylesheet" href="@Url.Content("~/css/AccesoDenegado.css")" />
+
+@{
+	ViewData["Title"] = " | Acceso denegado";
+	Layout = null;
+}
+
+<style>
+	#particles-js {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(135deg, #0a0a0a 0%, #121212 50%, #1a1a1a 100%);
+		z-index: -1;
+	}
+</style>
+<div id="particles-js"></div>
+
+
+<body>
+
+	<img src="https://i.postimg.cc/JnLcQd3y/acceso-denegado.png" alt="Acceso denegado" />
+
+	<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+	<script>
+		particlesJS("particles-js", {
+			particles: {
+				number: { value: 80 },
+				color: { value: "#ffffff" },
+				shape: { type: "circle" },
+				opacity: { value: 0.2 },
+				size: { value: 3 },
+				line_linked: {
+					enable: true,
+					distance: 150,
+					color: "#ffffff",
+					opacity: 0.1,
+					width: 1
+				},
+				move: {
+					enable: true,
+					speed: 1,
+					direction: "none",
+					out_mode: "out"
+				}
+			},
+			interactivity: {
+				events: {
+					onhover: { enable: true, mode: "repulse" }
+				}
+			},
+			retina_detect: true
+		});
+	</script>
+</body>
+

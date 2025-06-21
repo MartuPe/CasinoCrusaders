@@ -1,0 +1,26 @@
+﻿<link rel="stylesheet" href="@Url.Content("~/css/IndexUsuario.css")" />
+@{
+	ViewData["Title"] = " | Home usuario";
+}
+<partial name="_HeaderUsuario"></partial>
+
+<div class="video-overlay"></div>
+
+<section class="sectionJugador" onmouseover="oscurecerOverlay()" onmouseout="restaurarOverlay()">
+	<div class="hero-wrapper">
+		<img class="CasinoCrusadersImage" src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="CasinoCrusaders">
+		<a href="#" class="boton-descarga">JUGAR</a>
+	</div>
+</section>
+
+
+@section Scripts {
+	<script>
+		function oscurecerOverlay() {
+		  document.querySelector('.video-overlay').style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+		}
+		function restaurarOverlay() {
+		  document.querySelector('.video-overlay').style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+		}
+	</script>
+}
