@@ -1,22 +1,46 @@
-﻿@inject IHttpContextAccessor HttpContextAccessor  
+﻿@inject IHttpContextAccessor HttpContextAccessor
 <nav class="navbar">
-    <a href="/home/IndexUsuario" class="logo">
-        <img src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="Logo">
-    </a>
+	<a href="/home/IndexUsuario" class="logo">
+		<img src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="Logo">
+	</a>
 
-    <input type="checkbox" id="menu-toggle">
-    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+	<input type="checkbox" id="menu-toggle">
+	<label for="menu-toggle" class="menu-icon">&#9776;</label>
 
-    <ul class="nav-list">
-        <li><a href="/Ranking/Index">Ranking</a></li>
-        <li><a href="#personajes">Personajes</a></li>
-        <li><a href="/enemigo/mostrarEnemigos">Enemigos</a></li>
-        <li><a href="#niveles">Niveles</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-    </ul>
+	<ul class="nav-list">
+		<li><a href="/Ranking/Index">Ranking</a></li>
+		<li><a href="/enemigo/mostrarEnemigos">Enemigos</a></li>
+		<li><a href="/sobreNosotros/Index">Sobre Nosotros</a></li>
+	</ul>
 
-    <div class="user-info">
-        <span class="username">@HttpContextAccessor.HttpContext?.Session.GetString("Nombre")</span>
-        <img src="https://i.postimg.cc/2yGS1Gkn/enemigo-Carta.png" alt="Avatar" class="user-avatar">
-    </div>
+	<div class="user-info">
+		<span class="username">@HttpContextAccessor.HttpContext?.Session.GetString("Nombre")</span>
+		<button class="logout-icon" onclick="openLogoutModal()">
+			<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#f87171" viewBox="0 0 24 24">
+				<path d="M16 13v-2H7V8l-5 4 5 4v-3zM20 3h-8c-1.1 0-2 .9-2 2v4h2V5h8v14h-8v-4h-2v4c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+			</svg>
+		</button>
+	</div>
+
+	<div id="logoutModal" class="modalCerrar hidden">
+		<div class="modal-content-logout">
+			<p>¿Estás seguro de que querés cerrar sesión?</p>
+			<div class="modal-buttons-logout">
+				<button onclick="closeLogoutModal()" class="cancel-btn">Cancelar</button>
+				<form method="post" action="/Usuario/Logout">
+					<button type="submit" class="logout-btn">Cerrar sesión</button>
+				</form>
+			</div>
+		</div>
+	</div>
 </nav>
+
+<script>
+	function openLogoutModal() {
+		document.getElementById('logoutModal').classList.remove('hidden');
+	}
+
+	function closeLogoutModal() {
+		document.getElementById('logoutModal').classList.add('hidden');
+	}
+</script>
