@@ -96,19 +96,6 @@ namespace CasinoCrusaders.Controllers
                 EmailResendResult.Enviado => Ok("Correo de verificación reenviado."),
                 _ => StatusCode(500)
             };
-        }
-
-
-
-
-        
-
-        [HttpGet]
-        public IActionResult MostrarRanking()
-        {
-            return View();
-        }
-
-
+        }       
     }
 }

@@ -3,14 +3,14 @@
     background-color: rgba(6, 2, 27, 0.85);
     position: relative;
     z-index: 10;
-    padding:1rem;
+    padding: 1rem;
 }
 
 .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 1rem;
+    padding: 1rem 1rem;
     position: relative;
     flex-wrap: wrap;
 }

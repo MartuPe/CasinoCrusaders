@@ -1,23 +1,22 @@
-﻿<header>
-    <nav class="navbar">
-        <a href="/home/IndexUsuario" class="logo">
-            <img src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="Logo">
-        </a>
+﻿@inject IHttpContextAccessor HttpContextAccessor  
+<nav class="navbar">
+    <a href="/home/IndexUsuario" class="logo">
+        <img src="https://i.postimg.cc/7YSpYp2N/Casino-Crusaders-Logo-removebg-preview.png" alt="Logo">
+    </a>
 
-        <input type="checkbox" id="menu-toggle">
-        <label for="menu-toggle" class="menu-icon">&#9776;</label>
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
 
-        <ul class="nav-list">
-            <li><a href="/Usuario/MostrarRanking">Ranking</a></li>
-            <li><a href="#personajes">Personajes</a></li>
-            <li><a href="/enemigo/mostrarEnemigos">Enemigos</a></li>
-            <li><a href="#niveles">Niveles</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-        </ul>
+    <ul class="nav-list">
+        <li><a href="/Ranking/Index">Ranking</a></li>
+        <li><a href="#personajes">Personajes</a></li>
+        <li><a href="/enemigo/mostrarEnemigos">Enemigos</a></li>
+        <li><a href="#niveles">Niveles</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+    </ul>
 
-        <div class="user-info">
-            <span class="username">Maria</span>
-            <img src="https://i.postimg.cc/2yGS1Gkn/enemigo-Carta.png" alt="Avatar" class="user-avatar">
-        </div>
-    </nav>
-</header>
+    <div class="user-info">
+        <span class="username">@HttpContextAccessor.HttpContext?.Session.GetString("Nombre")</span>
+        <img src="https://i.postimg.cc/2yGS1Gkn/enemigo-Carta.png" alt="Avatar" class="user-avatar">
+    </div>
+</nav>
