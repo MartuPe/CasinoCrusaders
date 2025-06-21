@@ -33,6 +33,7 @@ namespace Servicio
             personajeExistente.VidaActual = personaje.VidaActual;
             personajeExistente.DañoAtaque = personaje.DañoAtaque;
             personajeExistente.Defensa = personaje.Defensa;
+            personajeExistente.Monedas = personaje.Monedas;
 
             _context.SaveChanges();
             return true;

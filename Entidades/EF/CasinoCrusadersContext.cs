@@ -37,29 +37,35 @@ public partial class CasinoCrusadersContext : DbContext
     {
         modelBuilder.Entity<Enemigo>(entity =>
         {
-            entity.HasKey(e => e.IdEnemigo).HasName("PK__Enemigo__C4BAE8D69160D38A");
+            entity.HasKey(e => e.IdEnemigo).HasName("PK__Enemigo__C4BAE8D6772AD085");
 
             entity.ToTable("Enemigo");
 
             entity.Property(e => e.IdEnemigo).HasColumnName("Id_enemigo");
-            entity.Property(e => e.Descripcion).HasMaxLength(200);
-            entity.Property(e => e.Imagen).HasMaxLength(200);
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(200)
+                .IsFixedLength();
+            entity.Property(e => e.Imagen)
+                .HasMaxLength(200)
+                .IsFixedLength();
             entity.Property(e => e.Nombre).HasColumnType("text");
         });
 
         modelBuilder.Entity<Nivel>(entity =>
         {
-            entity.HasKey(e => e.IdNivel).HasName("PK__Nivel__B6104B513E83FBB7");
+            entity.HasKey(e => e.IdNivel).HasName("PK__Nivel__B6104B51C4233869");
 
             entity.ToTable("Nivel");
+
+            entity.HasIndex(e => e.IdEnemigo, "IX_Nivel").IsUnique();
 
             entity.Property(e => e.IdNivel).HasColumnName("Id_nivel");
             entity.Property(e => e.IdEnemigo).HasColumnName("Id_enemigo");
             entity.Property(e => e.IdTipoCasillero).HasColumnName("Id_tipo_casillero");
             entity.Property(e => e.Nombre).HasColumnType("text");
 
-            entity.HasOne(d => d.IdEnemigoNavigation).WithMany(p => p.Nivels)
-                .HasForeignKey(d => d.IdEnemigo)
+            entity.HasOne(d => d.IdEnemigoNavigation).WithOne(p => p.Nivel)
+                .HasForeignKey<Nivel>(d => d.IdEnemigo)
                 .HasConstraintName("FK__Nivel__Id_enemig__4222D4EF");
 
             entity.HasOne(d => d.IdTipoCasilleroNavigation).WithMany(p => p.Nivels)
@@ -79,7 +85,7 @@ public partial class CasinoCrusadersContext : DbContext
 
         modelBuilder.Entity<Personaje>(entity =>
         {
-            entity.HasKey(e => e.IdPersonaje).HasName("PK__Personaj__C35CFB2A181103D7");
+            entity.HasKey(e => e.IdPersonaje).HasName("PK__Personaj__C35CFB2A3E5B3AD7");
 
             entity.ToTable("Personaje");
 
@@ -91,9 +97,11 @@ public partial class CasinoCrusadersContext : DbContext
 
         modelBuilder.Entity<Progreso>(entity =>
         {
-            entity.HasKey(e => e.IdProgreso).HasName("PK__Progreso__AB4A06E7656F0B21");
+            entity.HasKey(e => e.IdProgreso).HasName("PK__Progreso__AB4A06E75ECA0BD5");
 
             entity.ToTable("Progreso");
+
+            entity.HasIndex(e => e.IdPersonaje, "IX_Progreso").IsUnique();
 
             entity.Property(e => e.IdProgreso).HasColumnName("Id_progreso");
             entity.Property(e => e.FechaCreacion)
@@ -107,15 +115,15 @@ public partial class CasinoCrusadersContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Progreso__Id_niv__440B1D61");
 
-            entity.HasOne(d => d.IdPersonajeNavigation).WithMany(p => p.Progresos)
-                .HasForeignKey(d => d.IdPersonaje)
+            entity.HasOne(d => d.IdPersonajeNavigation).WithOne(p => p.Progreso)
+                .HasForeignKey<Progreso>(d => d.IdPersonaje)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Progreso__Id_per__44FF419A");
         });
 
         modelBuilder.Entity<TipoCasillero>(entity =>
         {
-            entity.HasKey(e => e.IdTipoCasillero).HasName("PK__Tipo_cas__478724B34F1F495B");
+            entity.HasKey(e => e.IdTipoCasillero).HasName("PK__Tipo_cas__478724B36E4213CD");
 
             entity.ToTable("Tipo_casillero");
 
@@ -130,6 +138,8 @@ public partial class CasinoCrusadersContext : DbContext
             entity.HasKey(e => e.IdUsuario);
 
             entity.ToTable("Usuario");
+
+            entity.HasIndex(e => e.IdPersonaje, "IX_Usuario").IsUnique();
 
             entity.Property(e => e.IdUsuario).HasColumnName("Id_usuario");
             entity.Property(e => e.Contraseña)
@@ -152,8 +162,8 @@ public partial class CasinoCrusadersContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("Tipo_usuario");
 
-            entity.HasOne(d => d.IdPersonajeNavigation).WithMany(p => p.Usuarios)
-                .HasForeignKey(d => d.IdPersonaje)
+            entity.HasOne(d => d.IdPersonajeNavigation).WithOne(p => p.Usuario)
+                .HasForeignKey<Usuario>(d => d.IdPersonaje)
                 .HasConstraintName("FK_Usuario_Personaje");
         });
 

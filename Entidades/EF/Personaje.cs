@@ -15,7 +15,9 @@ public partial class Personaje
 
     public int? Defensa { get; set; }
 
-    public virtual ICollection<Progreso> Progresos { get; set; } = new List<Progreso>();
+    public int Monedas { get; set; }
 
-    public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
+    public virtual Progreso? Progreso { get; set; }
+
+    public virtual Usuario? Usuario { get; set; }
 }
