@@ -17,6 +17,8 @@ namespace CasinoCrusaders.Controllers
             _personajeServicio = personajeServicio;
             _progresoServicio = progresoServicio;
         }
+
+        [RolRequerido("Usuario")]
         public IActionResult MiPersonaje()
         {
             

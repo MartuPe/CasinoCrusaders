@@ -4,7 +4,16 @@
 @{
 	ViewData["Title"] = " | Sobre nosotros";
 }
-<partial name="_HeaderUsuario"></partial>
+
+@if (ViewBag.Rol == "Usuario" || ViewBag.Rol == null)
+{
+    <partial name="_HeaderUsuario"></partial>
+}
+
+@if (ViewBag.Rol == "Admin")
+{
+    <partial name="_HeaderAdmin"></partial>
+}
 <section id="sobre-nosotros" style="background-color:#111; color:white; padding:50px 20px;">
     <div style="max-width:1200px; margin:auto; text-align:center;">
         <h2 style="font-size:2.5rem; margin-bottom:20px;">Sobre Nosotros</h2>

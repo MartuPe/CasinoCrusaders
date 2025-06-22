@@ -6,6 +6,8 @@ namespace CasinoCrusaders.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.Rol = HttpContext.Session.GetString("Rol");
+
             return View();
         }
     }

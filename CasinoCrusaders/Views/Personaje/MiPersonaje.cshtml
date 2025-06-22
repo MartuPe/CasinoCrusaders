@@ -12,10 +12,17 @@
 
 @if (ViewBag.ErrorPersonaje != null)
 {
-    <div class="alert alert-warning text-center">
-        @ViewBag.ErrorPersonaje
+    <div class="whole">
+        <div class="container">
+            <div class="box box3">
+                <div class="alert alert-secondary text-center">
+                    @ViewBag.ErrorPersonaje
+                </div>
+            </div>
+        </div>
     </div>
 }
+
 else
 {
     <div class="whole">
