@@ -44,14 +44,14 @@ namespace CasinoCrusaders.Controllers
 
 
         [HttpPut]
-        public IActionResult ActualizarProgreso(int id, int nivel, DateTime fecha)
+        public IActionResult ActualizarProgreso(int id, int nivel)
         {
 
             var progreso = _progresoServicio.ObtenerProgreso(id);
 
             if (progreso != null)
             {
-                _progresoServicio.ActualizarProgreso(id, nivel, fecha);
+                _progresoServicio.ActualizarProgreso(id, nivel);
                 return Ok("personaje actualizado");
             }
 

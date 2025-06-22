@@ -5,43 +5,15 @@
 @{
 	ViewData["Title"] = " | Enemigos";
 }
-@if (ViewBag.Rol == "Usuario")
+@if (ViewBag.Rol == "Usuario" || ViewBag.Rol == null)
 {
 	<partial name="_HeaderUsuario"></partial>
-
-	<h1 class="text-center mt-4">Enemigos</h1>
-
-	@if (ViewBag.Mensaje != null)
-	{
-		<div class="alert alert-warning">@ViewBag.Mensaje</div>
-	}
-
-	@if (TempData["MensajeError"] != null)
-	{
-		<div class="alert alert-danger">@TempData["MensajeError"]</div>
-	}
-
-	<section class="enemigos mt-5">
-
-		@foreach (var enemigo in Model.Enemigos)
-		{
-
-			<div class="card">
-				<img src="@enemigo.Imagen" class="card-img-top" alt="enemigoCarta">
-				<div class="card-body d-flex justify-content-center align-items-center flex-column text-center">
-					<h5 class="card-title">@enemigo.Nombre</h5>
-					<p class="card-text">@enemigo.Descripcion</p>
-					<a href="/enemigo/EnemigosDetalles/@enemigo.IdEnemigo" class="btn btn-primary">Detalles</a>
-				</div>
-			</div>
-
-		}
-
-	</section>
 }
+
 @if (ViewBag.Rol == "Admin")
 {
 	<partial name="_HeaderAdmin"></partial>
+}
 
 	<h1 class="text-center mt-4">Enemigos</h1>
 
@@ -60,7 +32,6 @@
 		@foreach (var enemigo in Model.Enemigos)
 		{
 
-
 			<div class="card">
 				<img src="@enemigo.Imagen" class="card-img-top" alt="enemigoCarta">
 				<div class="card-body d-flex justify-content-center align-items-center flex-column text-center">
@@ -74,6 +45,9 @@
 
 	</section>
 
+
+@if (ViewBag.Rol == "Admin")
+{
 	<div class="d-flex justify-content-center align-items-center mt-5 mb-5">
 		<button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#crearEnemigoModal">
 			Registrar Enemigo
@@ -157,8 +131,11 @@
 			</div>
 		</div>
 	</div>
-
 }
+
+	
+
+
 
 @section Scripts {
 	<partial name="_ValidationScriptsPartial" />

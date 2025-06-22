@@ -5,6 +5,7 @@ using Servicio;
 
 namespace CasinoCrusaders.Controllers;
 
+[RolRequerido("Admin")]
 public class AdminController : Controller
 {
 
@@ -17,7 +18,6 @@ public class AdminController : Controller
         this.objetoServicio =  objetoServicio;
     }
 
-    [RolRequerido("Admin")]
     public IActionResult IndexAdmin()
     {
         return View();

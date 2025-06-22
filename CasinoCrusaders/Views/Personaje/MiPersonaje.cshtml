@@ -1,0 +1,50 @@
+﻿<link rel="stylesheet" href="@Url.Content("~/css/MiPersonaje.css")" />
+
+@{
+    ViewData["Title"] = " | Mi Personaje";
+}
+
+<partial name="_HeaderUsuario"></partial>
+
+@model CasinoCrusaders.ViewModels.MiPersonajeViewModel
+
+
+
+@if (ViewBag.ErrorPersonaje != null)
+{
+    <div class="whole">
+        <div class="container">
+            <div class="box box3">
+                <div class="alert alert-secondary text-center">
+                    @ViewBag.ErrorPersonaje
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+else
+{
+    <div class="whole">
+        <div class="container">
+            <div class="box box1"> <img src="https://i.postimg.cc/9XKfhBdr/pj.png" alt="personaje"></div>
+            <div class="box box2">
+
+                <h2>Estadisticas</h2>
+
+                <span>Vida Maxima: @Model.Personaje.VidaMaxima</span>
+                <span>Vida Actual: @Model.Personaje.VidaActual</span>
+                <span>Ataque: @Model.Personaje.DanoAtaque</span>
+                <span>Defensa: @Model.Personaje.Defensa</span>
+                <span>Monedas: @Model.Personaje.Monedas</span>
+
+            </div>
+            <div class="box box3">
+                <p>Actualmente estas en el nivel: @Model.progreso.IdNivel</p>
+            </div>
+        </div>
+    </div>
+}
+
+  
+

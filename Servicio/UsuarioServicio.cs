@@ -86,6 +86,7 @@ public class UsuarioServicio : IUsuarioServicio
 
         if (usuario.IdPersonaje == null)
         {
+      
             var nuevoPersonaje = new Personaje
             {
                 VidaMaxima = 100,
@@ -96,15 +97,26 @@ public class UsuarioServicio : IUsuarioServicio
             };
 
             _context.Personajes.Add(nuevoPersonaje);
-            _context.SaveChanges(); 
+            _context.SaveChanges();
 
             usuario.IdPersonaje = nuevoPersonaje.IdPersonaje;
             _context.Usuarios.Update(usuario);
-            _context.SaveChanges(); 
+            _context.SaveChanges();
+
+            var nuevoProgreso = new Progreso
+            {
+                IdPersonaje = nuevoPersonaje.IdPersonaje,
+                IdNivel = 1,
+                FechaCreacion = DateTime.Now
+            };
+
+            _context.Progresos.Add(nuevoProgreso);
+            _context.SaveChanges();
         }
 
         return usuario;
     }
+
 
 
     public bool ValidarSiGmailExiste(string? email)

@@ -2,7 +2,16 @@
 
 <link rel="stylesheet" href="@Url.Content("~/css/EnemigosDetalles.css")" />
 
-@Html.Partial("_HeaderUsuario")
+@if (ViewBag.Rol == "Usuario" || ViewBag.Rol == null)
+{
+    <partial name="_HeaderUsuario"></partial>
+}
+
+@if (ViewBag.Rol == "Admin")
+{
+    <partial name="_HeaderAdmin"></partial>
+}
+
 
 @if (TempData["MensajeError"] != null)
 {
