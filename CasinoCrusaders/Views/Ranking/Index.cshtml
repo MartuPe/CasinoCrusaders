@@ -4,7 +4,17 @@
 @{
 	ViewData["Title"] = " | Ranking";
 }
-<partial name="_HeaderUsuario"></partial>
+
+@if (ViewBag.Rol == "Usuario" || ViewBag.Rol == null)
+{
+	<partial name="_HeaderUsuario"></partial>
+}
+
+@if (ViewBag.Rol == "Admin")
+{
+	<partial name="_HeaderAdmin"></partial>
+}
+
 <body>
 	<div class="slider-container">
 		<button class="arrow" onclick="prevCard()">&#8592;</button>

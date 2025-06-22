@@ -13,6 +13,8 @@ public class RankingController : Controller
     }
     public IActionResult Index()
     {
+        ViewBag.Rol = HttpContext.Session.GetString("Rol");
+
         var usuariosConProgreso = _progresoServicio.ObtenerLos5UsuariosConMayorProgreso();
         Enemigo enemigoMasDificil = _progresoServicio.ObtenerEnemigoMasDificil();
         Enemigo enemigoMasFacil = _progresoServicio.ObtenerEnemigoMasFacil();
