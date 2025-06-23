@@ -1,6 +1,6 @@
 ES IMPORTANTE TENER CORRIENDO LA API EN LOCALHOST:7000 ADEMAS DE LA BASE DE DATOS CARGADA PARA EL FUNCIONAMIENTO DEL JUEGO
 
-Link Juego: https://github.com/SantyPizarro/Casino-Crusaders
+Link GitHub Juego: https://github.com/SantyPizarro/Casino-Crusaders
 
 Creacion Base de datos: CREATE DATABASE [CasinoCrusaders] GO
 
