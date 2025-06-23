@@ -12,7 +12,7 @@
 				<div class="row">
 					<form asp-action="Registrar" method="post" class="register-form">
 						<div class="mb-3">
-							<label asp-for="NombreUsuario" class="form-label"></label>
+							<label asp-for="NombreUsuario" class="form-label">Nombre de usuario</label>
 							<input asp-for="NombreUsuario" class="form-control" />
 							<span asp-validation-for="NombreUsuario" class="text-danger"></span>
 						</div>
@@ -27,12 +27,12 @@
 							<span asp-validation-for="Contraseña" class="text-danger"></span>
 						</div>
 						<div class="mb-3">
-							<label asp-for="RepiteContraseña" class="form-label"></label>
+							<label asp-for="RepiteContraseña" class="form-label">Repite la contraseña</label>
 							<input asp-for="RepiteContraseña" type="password" class="form-control" />
 							<span asp-validation-for="RepiteContraseña" class="text-danger"></span>
 						</div>
 						<div class="d-grid">
-							<button type="submit" class="btn btn-primary">Entrar</button>
+							<button type="submit" class="btn btn-primary">Registrarse</button>
 						</div>
 					</form>
 				</div>
